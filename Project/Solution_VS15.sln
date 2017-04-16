@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Temp", "Temp", "{54B0557B-2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{30329165-8C18-46CB-A4F4-A05ADB2AE1DF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shuffleboard", "\\banner.main.ad.rit.edu\students\zrm2647\IGMProfile\Documents\DSA2 - Copy - Copy\Shuffleboard\Shuffleboard_VS15.vcxproj", "{F5D6D2E1-6FFD-402B-8EE3-DED4FE407028}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shuffleboard", "Shuffleboard\Shuffleboard_VS15.vcxproj", "{F5D6D2E1-6FFD-402B-8EE3-DED4FE407028}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
