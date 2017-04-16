@@ -49,8 +49,7 @@ void AppClass::ProcessKeyboard(void)
 			m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
 		}
 		else {
-			m_vPosition += vector3(0.0f, 0.0f, radians);
-			m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, m_vPosition);
+			m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, REAXISZ);
 		}
 	}
 
@@ -60,8 +59,7 @@ void AppClass::ProcessKeyboard(void)
 			m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
 		}
 		else {
-			m_vPosition += vector3(0.0f, 0.0f, -radians);
-			m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, m_vPosition);
+			m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, REAXISZ);
 		}
 	}
 

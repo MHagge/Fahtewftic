@@ -17,7 +17,6 @@ class AppClass : public ReEngAppClass
 	matrix4 m_mPuck = IDENTITY_M4;
 
 	vector3 m_vPosition = vector3(0.0f, 0.0f, 0.0f);
-	vector3 m_vRotation = vector3(0.0f, 0.0f, 0.0f);
 
 	bool rotate = false;
 
