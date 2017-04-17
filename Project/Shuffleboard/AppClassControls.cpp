@@ -8,7 +8,7 @@ void AppClass::ProcessKeyboard(void)
 #pragma region ON_KEY_PRESS_RELEASE
 	static bool	bLastF1 = false, bLastF2 = false, bLastF3 = false, bLastF4 = false, bLastF5 = false,
 				bLastF6 = false, bLastF7 = false, bLastF8 = false, bLastF9 = false, bLastF10 = false,
-				bLastEscape = false, bLastF = false, bLastTab = false, bLastSpace = false;
+				bLastEscape = false, bLastF = false;
 #define ON_KEY_PRESS_RELEASE(key, pressed_action, released_action){  \
 			bool pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::key);			\
 			if(pressed){											\
@@ -43,47 +43,39 @@ void AppClass::ProcessKeyboard(void)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCameraMngr->MoveVertical(fSpeed);
 
-	//MOVE PUCK
-	if (gameState == 1) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			if (!rotate) {
-				m_vPosition += vector3(0.1f, 0.0f, 0.0f);
-				m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
-			}
-			else {
-				m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, REAXISZ);
-			}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		if (!rotate) {
+			m_vPosition += vector3(0.1f, 0.0f, 0.0f);
+			m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
 		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			if (!rotate) {
-				m_vPosition += vector3(-0.1f, 0.0f, 0.0f);
-				m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
-			}
-			else {
-				m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, REAXISZ);
-			}
+		else {
+			m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, REAXISZ);
 		}
-
-		ON_KEY_PRESS_RELEASE(Space, NULL, rotate = !rotate);
-	}
-	//END MOVE PUCK
-
-
-	//Debug Quick Change Player Turn
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-		player1Turn = true;
-
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-		player1Turn = false;
-	}
-	
-	ON_KEY_PRESS_RELEASE(Tab, NULL,	gameState++);
-	if (gameState >= 4) {
-		gameState = 0;
 	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+		if (!rotate) {
+			m_vPosition += vector3(-0.1f, 0.0f, 0.0f);
+			m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
+		}
+		else {
+			m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, REAXISZ);
+		}
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+		rotate = !rotate;
+	}
+
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		m_vPosition += vector3(radians, 0.0f, 0.0f);
+		m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, m_vPosition);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		m_vPosition += vector3(-radians, 0.0f, 0.0f);
+		m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, m_vPosition);
+	}*/
 #pragma endregion
 
 #pragma region Other Actions
