@@ -27,7 +27,7 @@ void AppClass::InitVariables(void)
 	//Load a model onto the Mesh manager
 	//m_pMeshMngr->LoadModel("Lego\\Unikitty.bto", "Unikitty");
 	m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
-  m_pMeshMngr->LoadModel("Planets\\03A_Earth.obj", "Earth");
+	//m_pMeshMngr->LoadModel("Planets\\03A_Earth.obj", "Earth");
 
 	
 	//m_pPuck->GenerateSphere(0.5f, 5, RERED);
@@ -79,9 +79,12 @@ void AppClass::Update(void)
 	m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
 
 
-	//Set Moon model to Puck mat4 so moon is now puck
-	m_pMeshMngr->SetModelMatrix(m_mPuck,"Moon");
-	m_pMeshMngr->SetModelMatrix(m_mPuck,"Earth");
+	if (player1Turn) {
+		m_pMeshMngr->SetModelMatrix(m_mPuck, "Moon");
+	}
+	else {
+		m_pMeshMngr->SetModelMatrix(m_mPuck, "Earth");
+	}
 
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddSkyboxToRenderList();
@@ -122,6 +125,12 @@ void AppClass::Prints(void)
 	if (gameState == 0) {
 		m_pMeshMngr->PrintLine("Press Tab to Begin");
 	}
+
+	m_pMeshMngr->Print("player1Turn:");
+	m_pMeshMngr->PrintLine(std::to_string(player1Turn), RERED);
+
+	m_pMeshMngr->Print("wasPlayer1Turn:");
+	m_pMeshMngr->PrintLine(std::to_string(wasPlayer1Turn), RERED);
 }
 
 void AppClass::Display(void)
@@ -131,13 +140,6 @@ void AppClass::Display(void)
 
 	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix();
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
-
-	if (player1Turn) {
-		m_pPlayer1Puck->Render(m4Projection, m4View, m_mPuck);
-	}
-	else {
-		m_pPlayer2Puck->Render(m4Projection, m4View, m_mPuck);
-	}
 
 	//Render the grid based on the camera's mode:
 	//m_pMeshMngr->AddGridToRenderListBasedOnCamera(m_pCameraMngr->GetCameraMode());

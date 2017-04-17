@@ -23,6 +23,7 @@ class AppClass : public ReEngAppClass
 	bool rotate = false;
 
 	bool player1Turn = true;
+	bool wasPlayer1Turn = false;
 	int gameState = 0; //lol what am i doing
 
 					   /*
