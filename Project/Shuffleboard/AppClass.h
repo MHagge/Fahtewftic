@@ -12,7 +12,9 @@ using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
 class AppClass : public ReEngAppClass
 {
-	PrimitiveClass* m_pPuck = nullptr;
+	PrimitiveClass* m_pPlayer1Puck = nullptr;
+	PrimitiveClass* m_pPlayer2Puck = nullptr;
+
 
 	matrix4 m_mPuck = IDENTITY_M4;
 
@@ -20,12 +22,24 @@ class AppClass : public ReEngAppClass
 
 	bool rotate = false;
 
+	bool player1Turn = true;
+	int gameState = 0; //lol what am i doing
+
+					   /*
+					   gameState = {
+					   START: 0
+					   IN_PLAY: 1
+					   END_ROUND: 2
+					   END_GAME: 3
+					   }
+					   */
+
 public:
 	typedef ReEngAppClass super;
 
 	/*
 	USAGE: Constructor
-	ARGUMENTS: 
+	ARGUMENTS:
 	- HINSTANCE hInstance -> Instance of the window
 	- LPWSTR lpCmdLine -> Command line
 	- int nCmdShow -> Number or arguments
@@ -74,6 +88,10 @@ public:
 	USAGE: Displays the scene
 	ARGUMENTS: ---
 	OUTPUT: ---
+	*/
+	virtual void Prints(void) final;
+	/*
+	USAGE: Displays text for gameplay and for debugging
 	*/
 	virtual void Display(void) final;
 	/*

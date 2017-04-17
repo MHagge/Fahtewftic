@@ -7,8 +7,8 @@ void AppClass::ProcessKeyboard(void)
 
 #pragma region ON_KEY_PRESS_RELEASE
 	static bool	bLastF1 = false, bLastF2 = false, bLastF3 = false, bLastF4 = false, bLastF5 = false,
-				bLastF6 = false, bLastF7 = false, bLastF8 = false, bLastF9 = false, bLastF10 = false,
-				bLastEscape = false, bLastF = false;
+		bLastF6 = false, bLastF7 = false, bLastF8 = false, bLastF9 = false, bLastF10 = false,
+		bLastEscape = false, bLastF = false, bLastTab = false, bLastSpace = false;
 #define ON_KEY_PRESS_RELEASE(key, pressed_action, released_action){  \
 			bool pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::key);			\
 			if(pressed){											\
@@ -18,23 +18,23 @@ void AppClass::ProcessKeyboard(void)
 #pragma endregion
 
 #pragma region Modifiers
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
 		bModifier = true;
 #pragma endregion
 
 #pragma region Camera Positioning
-	if(bModifier)
+	if (bModifier)
 		fSpeed *= 10.0f;
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		m_pCameraMngr->MoveForward(fSpeed);
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		m_pCameraMngr->MoveForward(-fSpeed);
-	
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		m_pCameraMngr->MoveSideways(-fSpeed);
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		m_pCameraMngr->MoveSideways(fSpeed);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
@@ -43,39 +43,47 @@ void AppClass::ProcessKeyboard(void)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCameraMngr->MoveVertical(fSpeed);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		if (!rotate) {
-			m_vPosition += vector3(0.1f, 0.0f, 0.0f);
-			m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
+	//MOVE PUCK
+	if (gameState == 1) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			if (!rotate) {
+				m_vPosition += vector3(0.1f, 0.0f, 0.0f);
+				m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
+			}
+			else {
+				m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, REAXISZ);
+			}
 		}
-		else {
-			m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, REAXISZ);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			if (!rotate) {
+				m_vPosition += vector3(-0.1f, 0.0f, 0.0f);
+				m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
+			}
+			else {
+				m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, REAXISZ);
+			}
 		}
+
+		ON_KEY_PRESS_RELEASE(Space, NULL, rotate = !rotate);
+	}
+	//END MOVE PUCK
+
+
+	//Debug Quick Change Player Turn
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
+		player1Turn = true;
+
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
+		player1Turn = false;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		if (!rotate) {
-			m_vPosition += vector3(-0.1f, 0.0f, 0.0f);
-			m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
-		}
-		else {
-			m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, REAXISZ);
-		}
+	ON_KEY_PRESS_RELEASE(Tab, NULL, gameState++);
+	if (gameState >= 4) {
+		gameState = 0;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-		rotate = !rotate;
-	}
-
-	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		m_vPosition += vector3(radians, 0.0f, 0.0f);
-		m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, m_vPosition);
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		m_vPosition += vector3(-radians, 0.0f, 0.0f);
-		m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, m_vPosition);
-	}*/
 #pragma endregion
 
 #pragma region Other Actions
@@ -103,30 +111,30 @@ void AppClass::ProcessMouse(void)
 #pragma endregion
 	bool bLeft = false;
 	ON_MOUSE_PRESS_RELEASE(Left, NULL, bLeft = true)
-	if (bLeft)
-	{
-		//Turn off the visibility of all BOs for all instances
-		m_pMeshMngr->SetVisibleBO(BD_NONE, "ALL", -1);
-		//Get the Position and direction of the click on the screen
-		std::pair<vector3, vector3> pair =
-			m_pCameraMngr->GetClickAndDirectionOnWorldSpace(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
-		float fDistance = 0;//Stores the distance to the first colliding object
-		m_selection = m_pMeshMngr->IsColliding(pair.first, pair.second, fDistance);
-
-		//If there is a collision
-		if (m_selection.first >= 0)
+		if (bLeft)
 		{
-			//Turn on the BO of the group
-			m_pMeshMngr->SetVisibleBO(BD_OB, m_selection.first, m_selection.second);
+			//Turn off the visibility of all BOs for all instances
+			m_pMeshMngr->SetVisibleBO(BD_NONE, "ALL", -1);
+			//Get the Position and direction of the click on the screen
+			std::pair<vector3, vector3> pair =
+				m_pCameraMngr->GetClickAndDirectionOnWorldSpace(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+			float fDistance = 0;//Stores the distance to the first colliding object
+			m_selection = m_pMeshMngr->IsColliding(pair.first, pair.second, fDistance);
 
-			//Turn of the BO of the instance but not the group
-			m_pMeshMngr->SetVisibleBO(BD_NONE, m_selection.first, -2);
+			//If there is a collision
+			if (m_selection.first >= 0)
+			{
+				//Turn on the BO of the group
+				m_pMeshMngr->SetVisibleBO(BD_OB, m_selection.first, m_selection.second);
+
+				//Turn of the BO of the instance but not the group
+				m_pMeshMngr->SetVisibleBO(BD_NONE, m_selection.first, -2);
+			}
 		}
-	}
-	
-	if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Middle))
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Middle))
 		m_bArcBall = true;
-	
-	if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
 		m_bFPC = true;
 }
