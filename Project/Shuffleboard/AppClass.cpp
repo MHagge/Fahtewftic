@@ -26,6 +26,10 @@ void AppClass::InitVariables(void)
 
 	//Load a model onto the Mesh manager
 	//m_pMeshMngr->LoadModel("Lego\\Unikitty.bto", "Unikitty");
+
+	m_bBoard = Board(vector3(0, 0, -10));
+	m_bBoard.Init();
+
 	m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
 	//m_pMeshMngr->LoadModel("Planets\\03A_Earth.obj", "Earth");
 
@@ -55,6 +59,7 @@ void AppClass::InitVariables(void)
 
 	m_pPlayer1Puck->GenerateSphere(0.5f, 5, RERED);
 	m_pPlayer2Puck->GenerateSphere(0.5f, 5, REBLUE);
+
 
 
 
@@ -141,6 +146,9 @@ void AppClass::Display(void)
 	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix();
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
 
+
+	m_bBoard.Render(m4Projection, m4View);
+
 	//Render the grid based on the camera's mode:
 	//m_pMeshMngr->AddGridToRenderListBasedOnCamera(m_pCameraMngr->GetCameraMode());
 	m_pMeshMngr->Render(); //renders the render list
@@ -152,6 +160,8 @@ void AppClass::Release(void)
 {
 	SafeDelete(m_pPlayer1Puck);
 	SafeDelete(m_pPlayer2Puck);
+
+	m_bBoard.DeleteBoard();
 
 	super::Release(); //release the memory of the inherited fields
 }
