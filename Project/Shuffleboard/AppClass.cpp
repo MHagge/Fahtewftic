@@ -23,6 +23,8 @@ void AppClass::InitVariables(void)
 		REAXISY);//What is up
 	//Load a model onto the Mesh manager
 	//m_pMeshMngr->LoadModel("Lego\\Unikitty.bto", "Unikitty");
+	m_bBoard = Board(vector3(0, 0, -10));
+	m_bBoard.Init();
 
 	m_pPuck = new PrimitiveClass();
 
@@ -74,6 +76,8 @@ void AppClass::Display(void)
 	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix();
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
 
+	m_bBoard.Render(m4Projection, m4View);
+
 	m_pPuck->Render(m4Projection, m4View, m_mPuck);
 
 	//Render the grid based on the camera's mode:
@@ -86,6 +90,8 @@ void AppClass::Display(void)
 void AppClass::Release(void)
 {
 	SafeDelete(m_pPuck);
+
+	m_bBoard.DeleteBoard();
 
 	super::Release(); //release the memory of the inherited fields
 }
