@@ -1,4 +1,5 @@
 #include "AppClass.h"
+#include "Puck.h"
 void AppClass::InitWindow(String a_sWindowName)
 {
 	super::InitWindow("Sandbox"); // Window Name
@@ -22,6 +23,34 @@ void AppClass::InitVariables(void)
 		vector3(0.0f, 2.5f, 15.0f),//Camera position
 		vector3(0.0f, 2.5f, 0.0f),//What Im looking at
 		REAXISY);//What is up
+
+	//Load a model onto the Mesh manager
+	//m_pMeshMngr->LoadModel("Lego\\Unikitty.bto", "Unikitty");
+
+	m_bBoard = Board(vector3(0, 0, -10));
+	m_bBoard.Init();
+
+	m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
+	//m_pMeshMngr->LoadModel("Planets\\03A_Earth.obj", "Earth");
+
+	
+	//m_pPuck->GenerateSphere(0.5f, 5, RERED);
+	
+	std::vector<Puck> p1Pucks;
+	std::vector<Puck> p2Pucks;
+
+	//Contains player pucks. WIll certainly be cleaned up in the future
+	//int numPucks = 5;
+	//for (int i = 0; i < numPucks; i++) {
+	//	Puck* nPuck = new Puck();
+	//	p1Pucks.push_back(nPuck);
+	//	p2Pucks.push_back(nPuck);
+	//}
+
+	//for (int i = 0; i < p1Pucks.size; i++) {
+	//	//m_pPuck->(pucks[i].xPos, pucks[i].yPos,pucks[i].zPos REBLACK);
+	//}
+  
 				 //Load a model onto the Mesh manager
 
 	m_pPlayer1Puck = new PrimitiveClass();
@@ -30,6 +59,8 @@ void AppClass::InitVariables(void)
 
 	m_pPlayer1Puck->GenerateSphere(0.5f, 5, RERED);
 	m_pPlayer2Puck->GenerateSphere(0.5f, 5, REBLUE);
+
+
 
 
 }
@@ -51,6 +82,14 @@ void AppClass::Update(void)
 
 	//Set the model matrix for the first model to be the arcball
 	m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
+
+
+	if (player1Turn) {
+		m_pMeshMngr->SetModelMatrix(m_mPuck, "Moon");
+	}
+	else {
+		m_pMeshMngr->SetModelMatrix(m_mPuck, "Earth");
+	}
 
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddSkyboxToRenderList();
@@ -91,6 +130,12 @@ void AppClass::Prints(void)
 	if (gameState == 0) {
 		m_pMeshMngr->PrintLine("Press Tab to Begin");
 	}
+
+	m_pMeshMngr->Print("player1Turn:");
+	m_pMeshMngr->PrintLine(std::to_string(player1Turn), RERED);
+
+	m_pMeshMngr->Print("wasPlayer1Turn:");
+	m_pMeshMngr->PrintLine(std::to_string(wasPlayer1Turn), RERED);
 }
 
 void AppClass::Display(void)
@@ -101,12 +146,8 @@ void AppClass::Display(void)
 	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix();
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
 
-	if (player1Turn) {
-		m_pPlayer1Puck->Render(m4Projection, m4View, m_mPuck);
-	}
-	else {
-		m_pPlayer2Puck->Render(m4Projection, m4View, m_mPuck);
-	}
+
+	m_bBoard.Render(m4Projection, m4View);
 
 	//Render the grid based on the camera's mode:
 	//m_pMeshMngr->AddGridToRenderListBasedOnCamera(m_pCameraMngr->GetCameraMode());
@@ -119,6 +160,8 @@ void AppClass::Release(void)
 {
 	SafeDelete(m_pPlayer1Puck);
 	SafeDelete(m_pPlayer2Puck);
+
+	m_bBoard.DeleteBoard();
 
 	super::Release(); //release the memory of the inherited fields
 }
