@@ -86,14 +86,15 @@ void AppClass::Update(void)
 
 	if (player1Turn) {
 		m_pMeshMngr->SetModelMatrix(m_mPuck, "Moon");
+		m_pMeshMngr->AddInstanceToRenderList("Moon");
 	}
 	else {
 		m_pMeshMngr->SetModelMatrix(m_mPuck, "Earth");
+		m_pMeshMngr->AddInstanceToRenderList("Earth");
 	}
 
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddSkyboxToRenderList();
-	m_pMeshMngr->AddInstanceToRenderList("ALL");
 
 	Prints();
 }
@@ -113,6 +114,14 @@ void AppClass::Prints(void)
 	m_pMeshMngr->Print("FPS:");
 	m_pMeshMngr->PrintLine(std::to_string(nFPS), RERED);
 
+	m_pMeshMngr->Print("player1Turn: ");
+	if (player1Turn == 0) {
+		m_pMeshMngr->Print("true", REBLUE);
+	}
+	else {
+		m_pMeshMngr->Print("false", REBLUE);
+	}
+
 	m_pMeshMngr->Print("Game State: ");
 	if (gameState == 0) {
 		m_pMeshMngr->PrintLine("START");
@@ -130,12 +139,6 @@ void AppClass::Prints(void)
 	if (gameState == 0) {
 		m_pMeshMngr->PrintLine("Press Tab to Begin");
 	}
-
-	m_pMeshMngr->Print("player1Turn:");
-	m_pMeshMngr->PrintLine(std::to_string(player1Turn), RERED);
-
-	m_pMeshMngr->Print("wasPlayer1Turn:");
-	m_pMeshMngr->PrintLine(std::to_string(wasPlayer1Turn), RERED);
 }
 
 void AppClass::Display(void)
