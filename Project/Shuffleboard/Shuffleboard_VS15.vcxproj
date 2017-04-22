@@ -108,7 +108,9 @@ xcopy "$(SolutionDir)include\RE\Shaders" "$(SolutionDir)_Binary\Shaders" /y</Com
     <ClCompile Include="AppClass.cpp" />
     <ClCompile Include="AppClassControls.cpp" />
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="BoundingObjectManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MyBoundingBoxClass.cpp" />
     <ClCompile Include="MyMesh.cpp" />
     <ClCompile Include="MyPrimitive.cpp" />
     <ClCompile Include="Physics.cpp" />
@@ -118,6 +120,8 @@ xcopy "$(SolutionDir)include\RE\Shaders" "$(SolutionDir)_Binary\Shaders" /y</Com
     <ClInclude Include="..\res\Resource.h" />
     <ClInclude Include="AppClass.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="BoundingObjectManager.h" />
+    <ClInclude Include="MyBoundingBoxClass.h" />
     <ClInclude Include="MyMesh.h" />
     <ClInclude Include="MyPrimitive.h" />
     <ClInclude Include="Physics.h" />
