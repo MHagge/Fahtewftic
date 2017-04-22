@@ -168,3 +168,21 @@ void AppClass::Release(void)
 
 	super::Release(); //release the memory of the inherited fields
 }
+
+void AppClass::SwitchGameState(GameStateEnum a_eNewState) {
+	switch (gameState)
+	{
+		case GameStateEnum::start:
+			gameState = in_play;
+			break;
+		case GameStateEnum::in_play:
+			gameState = end_round;
+			break;
+		case GameStateEnum::end_round:
+			gameState = end_game;
+			break;
+		case GameStateEnum::end_game:
+			gameState = start;
+			break;
+	}
+}

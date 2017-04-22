@@ -83,10 +83,7 @@ void AppClass::ProcessKeyboard(void)
 		m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
 	}
 
-	ON_KEY_PRESS_RELEASE(Tab, NULL, gameState++);
-	if (gameState >= 4) {
-		gameState = 0;
-	}
+	ON_KEY_PRESS_RELEASE(Tab, NULL, SwitchGameState(GameStateEnum::start));
 
 #pragma endregion
 
