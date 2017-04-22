@@ -33,14 +33,6 @@ class AppClass : public ReEngAppClass
 
 	bool player1Turn = true;
 	GameStateEnum gameState = GameStateEnum::start;
-					   /*
-					   gameState = {
-					   START: 0
-					   IN_PLAY: 1
-					   END_ROUND: 2
-					   END_GAME: 3
-					   }
-					   */
 
 public:
 	typedef ReEngAppClass super;
