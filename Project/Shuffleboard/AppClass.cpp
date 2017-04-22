@@ -83,7 +83,6 @@ void AppClass::Update(void)
 	//Set the model matrix for the first model to be the arcball
 	m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
 
-
 	if (player1Turn) {
 		m_pMeshMngr->SetModelMatrix(m_mPuck, "Moon");
 		m_pMeshMngr->AddInstanceToRenderList("Moon");

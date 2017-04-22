@@ -39,10 +39,13 @@
     <ClCompile Include="Puck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BoundingObjectManager.cpp">
+    <ClCompile Include="MyBOClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyBoundingBoxClass.cpp">
+    <ClCompile Include="MyBOManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,10 +71,13 @@
     <ClInclude Include="Puck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BoundingObjectManager.h">
+    <ClInclude Include="MyBOClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyBoundingBoxClass.h">
+    <ClInclude Include="MyBOManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

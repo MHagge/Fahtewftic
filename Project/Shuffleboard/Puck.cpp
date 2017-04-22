@@ -6,17 +6,18 @@ Puck::Puck()
 {
 }
 
-Puck::Puck(float x, float y, float z)
+Puck::Puck(String a_sName, vector3 a_v3Position)
 {
-	xPos = x;
-	yPos = y;
-	zPos = z;
+	m_sName = a_sName;
+	m_v3Position = a_v3Position;
+	m_pMeshMngr = MeshManagerSingleton::GetInstance();
 }
 
 Puck::~Puck()
 {
 }
 
-void Puck::createPuck()
+String Puck::GetName()
 {
+	return m_sName;
 }
