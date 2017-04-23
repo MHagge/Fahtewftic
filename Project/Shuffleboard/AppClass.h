@@ -11,6 +11,13 @@ Date: 2015/09 (Last Modified on: 15/11)
 
 using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
+enum GameStateEnum {
+	start,
+	in_play,
+	end_round,
+	end_game,
+};
+
 class AppClass : public ReEngAppClass
 {
 	Board m_bBoard;
@@ -25,8 +32,7 @@ class AppClass : public ReEngAppClass
 	bool rotate = false;
 
 	bool player1Turn = true;
-	int gameState = 0; //lol what am i doing
-
+	GameStateEnum gameState = GameStateEnum::start;
 					   /*
 					   gameState = {
 					   START: 0
@@ -115,6 +121,8 @@ public:
 	OUTPUT: ---
 	*/
 	virtual void Release(void) final;
+
+	virtual void SwitchGameState(GameStateEnum a_eNewState);
 };
 /*
 USAGE:

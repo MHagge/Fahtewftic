@@ -2,7 +2,7 @@
 #include "Puck.h"
 void AppClass::InitWindow(String a_sWindowName)
 {
-	super::InitWindow("Sandbox"); // Window Name
+	super::InitWindow("ShuffleBoard"); // Window Name
 
 								  // Set the clear color based on Microsoft's CornflowerBlue (default in XNA)
 								  //if this line is in Init Application it will depend on the .cfg file, if it
@@ -167,4 +167,22 @@ void AppClass::Release(void)
 	m_bBoard.DeleteBoard();
 
 	super::Release(); //release the memory of the inherited fields
+}
+
+void AppClass::SwitchGameState(GameStateEnum a_eNewState) {
+	switch (gameState)
+	{
+		case GameStateEnum::start:
+			gameState = in_play;
+			break;
+		case GameStateEnum::in_play:
+			gameState = end_round;
+			break;
+		case GameStateEnum::end_round:
+			gameState = end_game;
+			break;
+		case GameStateEnum::end_game:
+			gameState = start;
+			break;
+	}
 }
