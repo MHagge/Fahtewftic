@@ -51,7 +51,10 @@ void AppClass::ProcessKeyboard(void)
 				m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
 			}
 			else {
-				m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, REAXISY);
+				if (totalR < 60.0f) {
+					m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, REAXISY);
+					totalR += 2.0f;
+				}
 			}
 		}
 
@@ -61,7 +64,10 @@ void AppClass::ProcessKeyboard(void)
 				m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
 			}
 			else {
-				m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, REAXISY);
+				if (totalR > -60.0f) {
+					m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, REAXISY);
+					totalR -= 2.0f;
+				}
 			}
 		}
 

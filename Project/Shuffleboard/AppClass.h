@@ -42,6 +42,8 @@ class AppClass : public ReEngAppClass
 					   }
 					   */
 
+	float totalR = 0.0f; // total rotation of the current puck
+
 public:
 	typedef ReEngAppClass super;
 
