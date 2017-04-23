@@ -25,9 +25,9 @@ void AppClass::InitVariables(void)
 		REAXISY);//What is up
 
 	//Load a model onto the Mesh manager
-	//m_pMeshMngr->LoadModel("Lego\\Unikitty.bto", "Unikitty");
 
 	m_pGameMngr = GameManager::GetInstance();
+	m_pPhysics = Physics::GetInstance();
 
 	m_bBoard = Board(vector3(0, 0, -10));
 	m_bBoard.Init();
@@ -37,6 +37,9 @@ void AppClass::InitVariables(void)
 
 	
 	//m_pPuck->GenerateSphere(0.5f, 5, RERED);
+	
+	std::vector<Puck> p1Pucks;
+	std::vector<Puck> p2Pucks;
 
 	//Contains player pucks. WIll certainly be cleaned up in the future
 	//int numPucks = 5;
@@ -52,9 +55,13 @@ void AppClass::InitVariables(void)
   
 				 //Load a model onto the Mesh manager
 
+	m_pPlayer1Puck = new PrimitiveClass();
+	m_pPlayer2Puck = new PrimitiveClass();
 
 	m_pPlayerArrow = new PrimitiveClass();
 
+	m_pPlayer1Puck->GenerateSphere(0.5f, 5, RERED);
+	m_pPlayer2Puck->GenerateSphere(0.5f, 5, REBLUE);
 
 	m_pPlayerArrow->GenerateCone(0.5f, 1.5f, 10, REGREEN);
 
@@ -82,6 +89,7 @@ void AppClass::Update(void)
 
 	//Set the model matrix for the first model to be the arcball
 	m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
+
 
 	if (player1Turn) {
 		m_pMeshMngr->SetModelMatrix(m_mPuck, "Moon");
@@ -118,10 +126,10 @@ void AppClass::Prints(void)
 
 	m_pMeshMngr->Print("player1Turn: ");
 	if (player1Turn == 0) {
-		m_pMeshMngr->Print("true", REBLUE);
+		m_pMeshMngr->PrintLine("true", REBLUE);
 	}
 	else {
-		m_pMeshMngr->Print("false", REBLUE);
+		m_pMeshMngr->PrintLine("false", REBLUE);
 	}
 
 	m_pMeshMngr->Print("Game State: ");
@@ -169,8 +177,13 @@ void AppClass::Release(void)
 	SafeDelete(m_pPlayerArrow);
 
 	m_bBoard.DeleteBoard();
+
 	m_pGameMngr->Release();
 	m_pGameMngr->ReleaseInstance();
+
+	m_pPhysics->Release();
+	m_pPhysics->ReleaseInstance();
+
 
 	super::Release(); //release the memory of the inherited fields
 }
