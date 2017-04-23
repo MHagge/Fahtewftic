@@ -34,6 +34,8 @@ public:
 	OUTPUT: class object
 	*/
 	MyBOClass(std::vector<vector3> a_lVectorList);
+
+	MyBOClass(vector3 a_v3Position, vector3 a_v3Size);
 	/*
 	USAGE: Copy Constructor
 	ARGUMENTS: class object to copy

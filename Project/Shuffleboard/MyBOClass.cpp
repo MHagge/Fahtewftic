@@ -87,6 +87,20 @@ MyBOClass::MyBOClass(std::vector<vector3> a_lVectorList)
 	m_v3CenterG = m_v3Center;
 	m_v3HalfWidthG = m_v3HalfWidth;
 }
+MyBOClass::MyBOClass(vector3 a_v3Position, vector3 a_v3Size)
+{
+	m_v3Center = vector3(0);
+	m_v3Min = m_v3Center - (vector3(a_v3Size.x / 2.0f, a_v3Size.y / 2.0f, a_v3Size.z / 2.0f));
+	m_v3Max = m_v3Center + (vector3(a_v3Size.x / 2.0f, a_v3Size.y / 2.0f, a_v3Size.z / 2.0f));
+	m_v3HalfWidth = (m_v3Max - m_v3Min) / 2.0f;
+	
+	m_fRadius = a_v3Size.x / 2;
+	
+	m_v3MaxG = m_v3Max;
+	m_v3MinG = m_v3Min;
+	m_v3CenterG = m_v3Center;
+	m_v3HalfWidthG = m_v3HalfWidth;
+}
 MyBOClass::MyBOClass(MyBOClass const& other)
 {
 	m_m4ToWorld = other.m_m4ToWorld;
