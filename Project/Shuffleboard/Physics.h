@@ -2,6 +2,7 @@
 
 #include "RE\ReEngAppClass.h"
 #include "RE\ReEng.h"
+#include "Puck.h"
 
 using namespace ReEng;
 
@@ -10,8 +11,6 @@ private:
 	static Physics* m_pInstance;
 
 	float m_fFriction;
-	float m_fAcceleration;
-	vector3 m_v3Velocity;
 
 	void Init(void);
 	Physics::Physics();
@@ -24,6 +23,6 @@ public:
 	void Release(void);
 	static void ReleaseInstance();
 
-	vector3 Shoot(vector3 a_v3Position, float a_fAngle, float a_fPower);
-	vector3 UpdatePhysics(vector3 a_v3Position);
+	Puck Shoot(Puck a_puObject, float a_fAngle, float a_fPower);
+	Puck UpdatePhysics(Puck a_puObject);
 };
