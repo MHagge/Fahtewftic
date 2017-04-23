@@ -79,14 +79,9 @@ void AppClass::ProcessKeyboard(void)
 	//Debug Quick Change Player Turn
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
 		player1Turn = true;
-		m_pMeshMngr->ClearRenderList();
-		m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
-
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
 		player1Turn = false;
-		m_pMeshMngr->ClearRenderList();
-		m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
 	}
 
 	ON_KEY_PRESS_RELEASE(Tab, NULL, SwitchGameState(GameStateEnum::start) );

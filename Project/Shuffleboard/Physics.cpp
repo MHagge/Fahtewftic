@@ -1,17 +1,27 @@
 #include "Physics.h"
 
-Physics::Physics()
+Physics* Physics::m_pInstance = nullptr;
+
+Physics * Physics::GetInstance()
 {
-	m_fFriction = 0.1f;
-	vector3 m_v3Velocity = vector3(0.0f, 0.0f, 0.0f);
+	if (m_pInstance == nullptr)
+	{
+		m_pInstance = new Physics();
+	}
+	return m_pInstance;
 }
 
-Physics::Physics(const Physics & other)
+void Physics::Release(void)
 {
 }
 
-Physics::~Physics(void)
+void Physics::ReleaseInstance()
 {
+	if (m_pInstance != nullptr)
+	{
+		delete m_pInstance;
+		m_pInstance = nullptr;
+	}
 }
 
 vector3 Physics::Shoot(vector3 a_v3Position, float a_fAngle, float a_fPower)
@@ -27,3 +37,15 @@ vector3 Physics::UpdatePhysics(vector3 a_v3Position)
 	m_v3Velocity *= m_fFriction;
 	return m_v3Velocity;
 }
+
+void Physics::Init(void)
+{
+	m_fFriction = 0.1f;
+}
+
+Physics::Physics() { Init(); }
+Physics::Physics(Physics const& other) { }
+Physics & Physics::operator=(Physics const & other){ return *this; }
+Physics::~Physics(){ Release(); }
+
+

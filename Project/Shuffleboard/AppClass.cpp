@@ -25,13 +25,15 @@ void AppClass::InitVariables(void)
 		REAXISY);//What is up
 
 	//Load a model onto the Mesh manager
-	//m_pMeshMngr->LoadModel("Lego\\Unikitty.bto", "Unikitty");
+
+	m_pGameMngr = GameManager::GetInstance();
+	m_pPhysics = Physics::GetInstance();
 
 	m_bBoard = Board(vector3(0, 0, -10));
 	m_bBoard.Init();
 
 	m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
-	//m_pMeshMngr->LoadModel("Planets\\03A_Earth.obj", "Earth");
+	m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
 
 	
 	//m_pPuck->GenerateSphere(0.5f, 5, RERED);
@@ -60,18 +62,12 @@ void AppClass::InitVariables(void)
 	m_pPlayer1Puck->GenerateSphere(0.5f, 5, RERED);
 	m_pPlayer2Puck->GenerateSphere(0.5f, 5, REBLUE);
 
-	Physics *m_Puck1Physics = new Physics();
-
-
 }
 
 void AppClass::Update(void)
 {
 	//Update the system's time
 	m_pSystem->UpdateTime();
-
-	//Update Puck Physics
-	
 
 	//Update the mesh manager's time without updating for collision detection
 	m_pMeshMngr->Update();
@@ -95,6 +91,9 @@ void AppClass::Update(void)
 		m_pMeshMngr->SetModelMatrix(m_mPuck, "Earth");
 		m_pMeshMngr->AddInstanceToRenderList("Earth");
 	}
+
+	m_pGameMngr->Update();
+	m_pGameMngr->RenderObjects(m_pCameraMngr->GetProjectionMatrix(), m_pCameraMngr->GetViewMatrix());
 
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddSkyboxToRenderList();
@@ -168,6 +167,13 @@ void AppClass::Release(void)
 	SafeDelete(m_pPlayer2Puck);
 
 	m_bBoard.DeleteBoard();
+
+	m_pGameMngr->Release();
+	m_pGameMngr->ReleaseInstance();
+
+	m_pPhysics->Release();
+	m_pPhysics->ReleaseInstance();
+
 
 	super::Release(); //release the memory of the inherited fields
 }

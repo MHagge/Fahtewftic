@@ -7,18 +7,22 @@ using namespace ReEng;
 
 class Physics {
 private:
+	static Physics* m_pInstance;
+
 	float m_fFriction;
 	float m_fAcceleration;
-	//float m_fVelocity;
-
-	//vector3 m_v3Friction;
-	//vector3 m_v3Acceleration;
 	vector3 m_v3Velocity;
 
+	void Init(void);
+	Physics::Physics();
+	Physics::Physics(Physics const& other);
+	Physics& Physics::operator=(Physics const& other);
+	Physics::~Physics();
+
 public:
-	Physics();
-	Physics(const Physics& other);
-	~Physics(void);
+	static Physics* GetInstance();
+	void Release(void);
+	static void ReleaseInstance();
 
 	vector3 Shoot(vector3 a_v3Position, float a_fAngle, float a_fPower);
 	vector3 UpdatePhysics(vector3 a_v3Position);
