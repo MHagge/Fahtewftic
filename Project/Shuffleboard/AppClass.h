@@ -7,7 +7,10 @@ Date: 2015/09 (Last Modified on: 15/11)
 
 #include "RE\ReEngAppClass.h"
 #include <SFML\Graphics.hpp>
+
 #include "Board.h"
+#include "Physics.h"
+#include "GameManager.h"
 
 using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
@@ -23,9 +26,12 @@ class AppClass : public ReEngAppClass
 	Board m_bBoard;
 	PrimitiveClass* m_pPlayer1Puck = nullptr;
 	PrimitiveClass* m_pPlayer2Puck = nullptr;
-
+	Physics* m_pPhysics = nullptr;
+	PrimitiveClass* m_pPlayerArrow = nullptr;
+	GameManager* m_pGameMngr = nullptr;
 
 	matrix4 m_mPuck = IDENTITY_M4;
+	matrix4 m_mArrow = IDENTITY_M4;
 
 	vector3 m_vPosition = vector3(0.0f, 0.0f, 0.0f);
 
@@ -33,14 +39,9 @@ class AppClass : public ReEngAppClass
 
 	bool player1Turn = true;
 	GameStateEnum gameState = GameStateEnum::start;
-					   /*
-					   gameState = {
-					   START: 0
-					   IN_PLAY: 1
-					   END_ROUND: 2
-					   END_GAME: 3
-					   }
-					   */
+
+	float totalR = 0.0f; // total rotation of the current puck
+	float totalP = 0.0f; // total amount left/right of puck
 
 public:
 	typedef ReEngAppClass super;

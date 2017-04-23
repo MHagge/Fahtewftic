@@ -2,8 +2,7 @@
 #include "Puck.h"
 void AppClass::InitWindow(String a_sWindowName)
 {
-	super::InitWindow("Sandbox"); // Window Name
-
+	super::InitWindow("Planetary ShuffleBoard"); // Window Name
 								  // Set the clear color based on Microsoft's CornflowerBlue (default in XNA)
 								  //if this line is in Init Application it will depend on the .cfg file, if it
 								  //is on the InitVariables it will always force it regardless of the .cfg
@@ -11,7 +10,6 @@ void AppClass::InitWindow(String a_sWindowName)
 	m_pSystem->SetWindowResolution(RESOLUTIONS::C_1280x720_16x9_HD);
 	//m_pSystem->SetWindowFullscreen(); //Sets the window to be fullscreen
 	//m_pSystem->SetWindowBorderless(true); //Sets the window to not have borders
-
 }
 
 void AppClass::InitVariables(void)
@@ -25,13 +23,15 @@ void AppClass::InitVariables(void)
 		REAXISY);//What is up
 
 	//Load a model onto the Mesh manager
-	//m_pMeshMngr->LoadModel("Lego\\Unikitty.bto", "Unikitty");
+
+	m_pGameMngr = GameManager::GetInstance();
+	m_pPhysics = Physics::GetInstance();
 
 	m_bBoard = Board(vector3(0, 0, -10));
 	m_bBoard.Init();
 
 	m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
-	//m_pMeshMngr->LoadModel("Planets\\03A_Earth.obj", "Earth");
+	m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
 
 	
 	//m_pPuck->GenerateSphere(0.5f, 5, RERED);
@@ -56,17 +56,22 @@ void AppClass::InitVariables(void)
 	m_pPlayer1Puck = new PrimitiveClass();
 	m_pPlayer2Puck = new PrimitiveClass();
 
+	m_pPlayerArrow = new PrimitiveClass();
 
 	m_pPlayer1Puck->GenerateSphere(0.5f, 5, RERED);
 	m_pPlayer2Puck->GenerateSphere(0.5f, 5, REBLUE);
 
-
-
+	m_pPlayerArrow->GenerateCone(0.5f, 1.5f, 10, REGREEN);
 
 }
 
 void AppClass::Update(void)
 {
+	// position arrow for puck
+	m_mArrow = m_mPuck;
+	m_mArrow *= glm::translate(vector3(0.0f, 0.0f, -2.0f));
+	m_mArrow *= glm::rotate(IDENTITY_M4, 270.0f, REAXISX);
+
 	//Update the system's time
 	m_pSystem->UpdateTime();
 
@@ -93,6 +98,9 @@ void AppClass::Update(void)
 		m_pMeshMngr->AddInstanceToRenderList("Earth");
 	}
 
+	m_pGameMngr->Update();
+	m_pGameMngr->RenderObjects(m_pCameraMngr->GetProjectionMatrix(), m_pCameraMngr->GetViewMatrix());
+
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddSkyboxToRenderList();
 
@@ -116,10 +124,10 @@ void AppClass::Prints(void)
 
 	m_pMeshMngr->Print("player1Turn: ");
 	if (player1Turn == 0) {
-		m_pMeshMngr->Print("true", REBLUE);
+		m_pMeshMngr->PrintLine("true", REBLUE);
 	}
 	else {
-		m_pMeshMngr->Print("false", REBLUE);
+		m_pMeshMngr->PrintLine("false", REBLUE);
 	}
 
 	m_pMeshMngr->Print("Game State: ");
@@ -149,6 +157,7 @@ void AppClass::Display(void)
 	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix();
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
 
+	m_pPlayerArrow->Render(m4Projection, m4View, m_mArrow);
 
 	m_bBoard.Render(m4Projection, m4View);
 
@@ -163,8 +172,16 @@ void AppClass::Release(void)
 {
 	SafeDelete(m_pPlayer1Puck);
 	SafeDelete(m_pPlayer2Puck);
+	SafeDelete(m_pPlayerArrow);
 
 	m_bBoard.DeleteBoard();
+
+	m_pGameMngr->Release();
+	m_pGameMngr->ReleaseInstance();
+
+	m_pPhysics->Release();
+	m_pPhysics->ReleaseInstance();
+
 
 	super::Release(); //release the memory of the inherited fields
 }
