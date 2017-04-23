@@ -2,8 +2,7 @@
 #include "Puck.h"
 void AppClass::InitWindow(String a_sWindowName)
 {
-	super::InitWindow("ShuffleBoard"); // Window Name
-
+	super::InitWindow("Planetary ShuffleBoard"); // Window Name
 								  // Set the clear color based on Microsoft's CornflowerBlue (default in XNA)
 								  //if this line is in Init Application it will depend on the .cfg file, if it
 								  //is on the InitVariables it will always force it regardless of the .cfg
@@ -11,7 +10,6 @@ void AppClass::InitWindow(String a_sWindowName)
 	m_pSystem->SetWindowResolution(RESOLUTIONS::C_1280x720_16x9_HD);
 	//m_pSystem->SetWindowFullscreen(); //Sets the window to be fullscreen
 	//m_pSystem->SetWindowBorderless(true); //Sets the window to not have borders
-
 }
 
 void AppClass::InitVariables(void)
