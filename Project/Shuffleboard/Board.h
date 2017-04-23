@@ -12,15 +12,17 @@ private:
 	float m_fheight;
 	float m_fsize;
 	vector3 m_v3Position;
-	std::vector<PrimitiveClass> m_vpcolliders;
-	MeshManagerSingleton* m_pMeshMngr = nullptr;
+	std::vector<PrimitiveClass*> m_vpPlanes;
+	std::vector<matrix4> m_vm4WorldMats;
 
 public:
+	Board();
 	Board(vector3 a_v3Position);
 	Board(vector3 a_v3Position, float a_size);
 	Board(Board &other);
-	~Board();
+	void DeleteBoard();
+	void Init();
 
 	int CalculatePoints();
-	void Render();
+	void Render(matrix4 a_m4Proj, matrix4 a_mView);
 };

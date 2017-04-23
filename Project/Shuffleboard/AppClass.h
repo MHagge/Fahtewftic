@@ -7,12 +7,23 @@ Date: 2015/09 (Last Modified on: 15/11)
 
 #include "RE\ReEngAppClass.h"
 #include <SFML\Graphics.hpp>
+#include "Board.h"
 
 using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
+enum GameStateEnum {
+	start,
+	in_play,
+	end_round,
+	end_game,
+};
+
 class AppClass : public ReEngAppClass
 {
-	PrimitiveClass* m_pPuck = nullptr;
+	Board m_bBoard;
+	PrimitiveClass* m_pPlayer1Puck = nullptr;
+	PrimitiveClass* m_pPlayer2Puck = nullptr;
+
 
 	matrix4 m_mPuck = IDENTITY_M4;
 
@@ -20,12 +31,23 @@ class AppClass : public ReEngAppClass
 
 	bool rotate = false;
 
+	bool player1Turn = true;
+	GameStateEnum gameState = GameStateEnum::start;
+					   /*
+					   gameState = {
+					   START: 0
+					   IN_PLAY: 1
+					   END_ROUND: 2
+					   END_GAME: 3
+					   }
+					   */
+
 public:
 	typedef ReEngAppClass super;
 
 	/*
 	USAGE: Constructor
-	ARGUMENTS: 
+	ARGUMENTS:
 	- HINSTANCE hInstance -> Instance of the window
 	- LPWSTR lpCmdLine -> Command line
 	- int nCmdShow -> Number or arguments
@@ -75,6 +97,10 @@ public:
 	ARGUMENTS: ---
 	OUTPUT: ---
 	*/
+	virtual void Prints(void) final;
+	/*
+	USAGE: Displays text for gameplay and for debugging
+	*/
 	virtual void Display(void) final;
 	/*
 	USAGE: Manage the response of key presses
@@ -95,6 +121,8 @@ public:
 	OUTPUT: ---
 	*/
 	virtual void Release(void) final;
+
+	virtual void SwitchGameState(GameStateEnum a_eNewState);
 };
 /*
 USAGE:
