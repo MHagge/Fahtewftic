@@ -9,10 +9,10 @@ class Physics {
 private:
 	float m_fFriction;
 	float m_fAcceleration;
-	float m_fVelocity;
+	//float m_fVelocity;
 
-	vector3 m_v3Friction;
-	vector3 m_v3Acceleration;
+	//vector3 m_v3Friction;
+	//vector3 m_v3Acceleration;
 	vector3 m_v3Velocity;
 
 public:
@@ -20,5 +20,6 @@ public:
 	Physics(const Physics& other);
 	~Physics(void);
 
-	void Shoot();
+	vector3 Shoot(vector3 a_v3Position, float a_fAngle, float a_fPower);
+	vector3 UpdatePhysics(vector3 a_v3Position);
 };

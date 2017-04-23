@@ -60,7 +60,7 @@ void AppClass::InitVariables(void)
 	m_pPlayer1Puck->GenerateSphere(0.5f, 5, RERED);
 	m_pPlayer2Puck->GenerateSphere(0.5f, 5, REBLUE);
 
-
+	Physics *m_Puck1Physics = new Physics();
 
 
 }
@@ -69,6 +69,9 @@ void AppClass::Update(void)
 {
 	//Update the system's time
 	m_pSystem->UpdateTime();
+
+	//Update Puck Physics
+	
 
 	//Update the mesh manager's time without updating for collision detection
 	m_pMeshMngr->Update();
@@ -116,10 +119,10 @@ void AppClass::Prints(void)
 
 	m_pMeshMngr->Print("player1Turn: ");
 	if (player1Turn == 0) {
-		m_pMeshMngr->Print("true", REBLUE);
+		m_pMeshMngr->PrintLine("true", REBLUE);
 	}
 	else {
-		m_pMeshMngr->Print("false", REBLUE);
+		m_pMeshMngr->PrintLine("false", REBLUE);
 	}
 
 	m_pMeshMngr->Print("Game State: ");
