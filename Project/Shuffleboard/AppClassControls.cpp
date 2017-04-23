@@ -47,21 +47,35 @@ void AppClass::ProcessKeyboard(void)
 	if (gameState == 1) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 			if (!rotate) {
-				m_vPosition += vector3(0.1f, 0.0f, 0.0f);
-				m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
+				if (totalP <= 2.0) {
+					m_vPosition += vector3(0.1f, 0.0f, 0.0f);
+					m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
+					totalR = 0.0f;
+					totalP += 0.1f;
+				}
 			}
 			else {
-				m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, REAXISY);
+				if (totalR > -50.0f) {
+					m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, REAXISY);
+					totalR -= 2.0f;
+				}
 			}
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 			if (!rotate) {
-				m_vPosition += vector3(-0.1f, 0.0f, 0.0f);
-				m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
+				if (totalP >= -2.0) {
+					m_vPosition += vector3(-0.1f, 0.0f, 0.0f);
+					m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
+					totalR = 0.0f;
+					totalP -= 0.1f;
+				}
 			}
 			else {
-				m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, REAXISY);
+				if (totalR < 50.0f) {
+					m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, REAXISY);
+					totalR += 2.0f;
+				}
 			}
 		}
 
