@@ -55,9 +55,6 @@ void AppClass::ProcessKeyboard(void)
 				}
 			}
 			else {
-				if (totalR < 60.0f) {
-					m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, REAXISY);
-					totalR += 2.0f;
 				if (totalR > -50.0f) {
 					m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, REAXISY);
 					totalR -= 2.0f;
@@ -75,9 +72,6 @@ void AppClass::ProcessKeyboard(void)
 				}
 			}
 			else {
-				if (totalR > -60.0f) {
-					m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, REAXISY);
-					totalR -= 2.0f;
 				if (totalR < 50.0f) {
 					m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, REAXISY);
 					totalR += 2.0f;
