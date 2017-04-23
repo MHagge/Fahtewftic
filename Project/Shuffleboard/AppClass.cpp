@@ -58,14 +58,22 @@ void AppClass::InitVariables(void)
 	m_pPlayer1Puck = new PrimitiveClass();
 	m_pPlayer2Puck = new PrimitiveClass();
 
+	m_pPlayerArrow = new PrimitiveClass();
 
 	m_pPlayer1Puck->GenerateSphere(0.5f, 5, RERED);
 	m_pPlayer2Puck->GenerateSphere(0.5f, 5, REBLUE);
+
+	m_pPlayerArrow->GenerateCone(0.5f, 1.5f, 10, REGREEN);
 
 }
 
 void AppClass::Update(void)
 {
+	// position arrow for puck
+	m_mArrow = m_mPuck;
+	m_mArrow *= glm::translate(vector3(0.0f, 0.0f, -2.0f));
+	m_mArrow *= glm::rotate(IDENTITY_M4, 270.0f, REAXISX);
+
 	//Update the system's time
 	m_pSystem->UpdateTime();
 
@@ -151,6 +159,7 @@ void AppClass::Display(void)
 	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix();
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
 
+	m_pPlayerArrow->Render(m4Projection, m4View, m_mArrow);
 
 	m_bBoard.Render(m4Projection, m4View);
 
@@ -165,6 +174,7 @@ void AppClass::Release(void)
 {
 	SafeDelete(m_pPlayer1Puck);
 	SafeDelete(m_pPlayer2Puck);
+	SafeDelete(m_pPlayerArrow);
 
 	m_bBoard.DeleteBoard();
 

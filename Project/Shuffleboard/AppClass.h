@@ -26,12 +26,12 @@ class AppClass : public ReEngAppClass
 	Board m_bBoard;
 	PrimitiveClass* m_pPlayer1Puck = nullptr;
 	PrimitiveClass* m_pPlayer2Puck = nullptr;
-
 	Physics* m_pPhysics = nullptr;
-
+	PrimitiveClass* m_pPlayerArrow = nullptr;
 	GameManager* m_pGameMngr = nullptr;
 
 	matrix4 m_mPuck = IDENTITY_M4;
+	matrix4 m_mArrow = IDENTITY_M4;
 
 	vector3 m_vPosition = vector3(0.0f, 0.0f, 0.0f);
 
@@ -41,6 +41,7 @@ class AppClass : public ReEngAppClass
 	GameStateEnum gameState = GameStateEnum::start;
 
 	float totalR = 0.0f; // total rotation of the current puck
+	float totalP = 0.0f; // total amount left/right of puck
 
 public:
 	typedef ReEngAppClass super;

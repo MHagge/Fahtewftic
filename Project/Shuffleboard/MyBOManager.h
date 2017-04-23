@@ -46,6 +46,8 @@ public:
 	OUTPUT: ---
 	*/
 	void AddObject(String a_sName);
+
+	void AddObject(String a_sName, vector3 a_v3Position, vector3 a_v3Size);
 	/*
 	USAGE: Sets the model matrix to the specified index
 	ARGUMENTS:
