@@ -86,6 +86,7 @@ void AppClass::ProcessKeyboard(void)
 	ON_KEY_PRESS_RELEASE(Tab, NULL, gameState++);
 	if (gameState >= 4) {
 		gameState = 0;
+		player1Turn = !player1Turn;
 	}
 
 #pragma endregion

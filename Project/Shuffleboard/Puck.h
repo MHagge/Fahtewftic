@@ -5,7 +5,9 @@ class Puck : public MyPrimitive {
 
 public:
 	//Puck pucks[];
-	float xPos, yPos,zPos;
+	float xPos, yPos, zPos;
+
+	vector3 p_v3Position;
 
 	void createPuck();
 	Puck();
