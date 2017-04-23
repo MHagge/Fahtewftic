@@ -1,16 +1,16 @@
 #pragma once
-#include "MyPrimitive.h"
+#include "RE\ReEng.h"
 
-class Puck : public MyPrimitive {
+class Puck {
+private:
+	vector3 m_v3Position;
+	String m_sName;
 
 public:
-	//Puck pucks[];
-	float xPos, yPos, zPos;
 
-	vector3 p_v3Position;
-
-	void createPuck();
 	Puck();
-	Puck(float x,float y,float z);
+	Puck(String a_sName, vector3 a_v3Position);
 	~Puck();
+
+	String GetName();
 };
