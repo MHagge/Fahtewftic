@@ -78,7 +78,8 @@ void AppClass::ProcessKeyboard(void)
 		player1Turn = false;
 	}
 
-	ON_KEY_PRESS_RELEASE(Tab, NULL, SwitchGameState(GameStateEnum::start));
+	ON_KEY_PRESS_RELEASE(Tab, NULL, SwitchGameState(GameStateEnum::start) );
+
 
 #pragma endregion
 
