@@ -33,13 +33,10 @@ void AppClass::InitVariables(void)
 	m_bBoard.Init();
 
 	m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
-	m_pMeshMngr->LoadModel("Planets\\03A_Earth.obj", "Earth");
+	m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
 
 	
 	//m_pPuck->GenerateSphere(0.5f, 5, RERED);
-	
-	std::vector<Puck> p1Pucks;
-	std::vector<Puck> p2Pucks;
 
 	//Contains player pucks. WIll certainly be cleaned up in the future
 	//int numPucks = 5;
@@ -54,13 +51,6 @@ void AppClass::InitVariables(void)
 	//}
   
 				 //Load a model onto the Mesh manager
-
-	m_pPlayer1Puck = new PrimitiveClass();
-	m_pPlayer2Puck = new PrimitiveClass();
-
-
-	m_pPlayer1Puck->GenerateSphere(0.5f, 5, RERED);
-	m_pPlayer2Puck->GenerateSphere(0.5f, 5, REBLUE);
 
 
 
@@ -93,6 +83,9 @@ void AppClass::Update(void)
 		m_pMeshMngr->SetModelMatrix(m_mPuck, "Earth");
 		m_pMeshMngr->AddInstanceToRenderList("Earth");
 	}
+
+	m_pGameMngr->Update();
+	m_pGameMngr->RenderObjects(m_pCameraMngr->GetProjectionMatrix(), m_pCameraMngr->GetViewMatrix());
 
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddSkyboxToRenderList();
@@ -150,7 +143,6 @@ void AppClass::Display(void)
 	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix();
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
 
-
 	m_bBoard.Render(m4Projection, m4View);
 
 	//Render the grid based on the camera's mode:
@@ -166,6 +158,8 @@ void AppClass::Release(void)
 	SafeDelete(m_pPlayer2Puck);
 
 	m_bBoard.DeleteBoard();
+	m_pGameMngr->Release();
+	m_pGameMngr->ReleaseInstance();
 
 	super::Release(); //release the memory of the inherited fields
 }

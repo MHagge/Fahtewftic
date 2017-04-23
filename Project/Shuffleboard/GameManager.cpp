@@ -13,6 +13,8 @@ void GameManager::Init(void)
 void GameManager::Release(void)
 {
 	m_lPucks.clear();
+	m_lPuckNames.clear();
+	m_lModelMatrices.clear();
 }
 GameManager* GameManager::GetInstance()
 {
