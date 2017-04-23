@@ -27,17 +27,16 @@ void AppClass::InitVariables(void)
 	//Load a model onto the Mesh manager
 	//m_pMeshMngr->LoadModel("Lego\\Unikitty.bto", "Unikitty");
 
+	m_pGameMngr = GameManager::GetInstance();
+
 	m_bBoard = Board(vector3(0, 0, -10));
 	m_bBoard.Init();
 
 	m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
-	//m_pMeshMngr->LoadModel("Planets\\03A_Earth.obj", "Earth");
+	m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
 
 	
 	//m_pPuck->GenerateSphere(0.5f, 5, RERED);
-	
-	std::vector<Puck> p1Pucks;
-	std::vector<Puck> p2Pucks;
 
 	//Contains player pucks. WIll certainly be cleaned up in the future
 	//int numPucks = 5;
@@ -53,13 +52,8 @@ void AppClass::InitVariables(void)
   
 				 //Load a model onto the Mesh manager
 
-	m_pPlayer1Puck = new PrimitiveClass();
-	m_pPlayer2Puck = new PrimitiveClass();
 
 	m_pPlayerArrow = new PrimitiveClass();
-
-	m_pPlayer1Puck->GenerateSphere(0.5f, 5, RERED);
-	m_pPlayer2Puck->GenerateSphere(0.5f, 5, REBLUE);
 
 
 	m_pPlayerArrow->GenerateCone(0.5f, 1.5f, 10, REGREEN);
@@ -89,7 +83,6 @@ void AppClass::Update(void)
 	//Set the model matrix for the first model to be the arcball
 	m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
 
-
 	if (player1Turn) {
 		m_pMeshMngr->SetModelMatrix(m_mPuck, "Moon");
 		m_pMeshMngr->AddInstanceToRenderList("Moon");
@@ -98,6 +91,9 @@ void AppClass::Update(void)
 		m_pMeshMngr->SetModelMatrix(m_mPuck, "Earth");
 		m_pMeshMngr->AddInstanceToRenderList("Earth");
 	}
+
+	m_pGameMngr->Update();
+	m_pGameMngr->RenderObjects(m_pCameraMngr->GetProjectionMatrix(), m_pCameraMngr->GetViewMatrix());
 
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddSkyboxToRenderList();
@@ -173,6 +169,8 @@ void AppClass::Release(void)
 	SafeDelete(m_pPlayerArrow);
 
 	m_bBoard.DeleteBoard();
+	m_pGameMngr->Release();
+	m_pGameMngr->ReleaseInstance();
 
 	super::Release(); //release the memory of the inherited fields
 }
