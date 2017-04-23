@@ -5,7 +5,6 @@ class Puck {
 private:
 	vector3 m_v3Position;
 	String m_sName;
-	MeshManagerSingleton* m_pMeshMngr = nullptr;
 
 public:
 

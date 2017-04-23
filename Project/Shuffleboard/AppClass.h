@@ -7,7 +7,7 @@ Date: 2015/09 (Last Modified on: 15/11)
 
 #include "RE\ReEngAppClass.h"
 #include <SFML\Graphics.hpp>
-#include "Board.h"
+#include "GameManager.h"
 
 using namespace ReEng; //Using ReEng namespace to use all the classes in the dll
 
@@ -24,6 +24,7 @@ class AppClass : public ReEngAppClass
 	PrimitiveClass* m_pPlayer1Puck = nullptr;
 	PrimitiveClass* m_pPlayer2Puck = nullptr;
 
+	GameManager* m_pGameMngr = nullptr;
 
 	matrix4 m_mPuck = IDENTITY_M4;
 

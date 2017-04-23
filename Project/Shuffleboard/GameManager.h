@@ -14,6 +14,7 @@ private:
 	int m_nPucks;
 	std::vector<Puck> m_lPucks;
 	std::vector<std::string> m_lPuckNames;
+	std::vector<matrix4> m_lModelMatrices;
 
 	void Init(void);
 	GameManager::GameManager();
@@ -22,11 +23,14 @@ private:
 	GameManager::~GameManager();
 public:
 
-	GameManager* GetInstance();
+	static GameManager* GetInstance();
 	void Release(void);
-	void ReleaseInstance();
+	static void ReleaseInstance();
 
 	void RenderObjects(matrix4 a_m4Proj, matrix4 a_m4View);
-	void AddNewPuck(Puck a_puNewPuck);
 	void AddNewPuck();
+	void AddNewPuck(Puck a_puNewPuck);
+	void AddNewPuck(Puck a_puNewPuck, matrix4 a_m4Model);
+	void SetModelMatrix(int a_nIndex, matrix4 a_m4Model);
+	void Update();
 };

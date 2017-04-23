@@ -27,11 +27,13 @@ void AppClass::InitVariables(void)
 	//Load a model onto the Mesh manager
 	//m_pMeshMngr->LoadModel("Lego\\Unikitty.bto", "Unikitty");
 
+	m_pGameMngr = GameManager::GetInstance();
+
 	m_bBoard = Board(vector3(0, 0, -10));
 	m_bBoard.Init();
 
 	m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
-	//m_pMeshMngr->LoadModel("Planets\\03A_Earth.obj", "Earth");
+	m_pMeshMngr->LoadModel("Planets\\03A_Earth.obj", "Earth");
 
 	
 	//m_pPuck->GenerateSphere(0.5f, 5, RERED);
