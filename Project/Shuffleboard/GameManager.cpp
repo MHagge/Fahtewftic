@@ -5,7 +5,8 @@ void GameManager::Init(void)
 {
 	m_pMeshMngr = MeshManagerSingleton::GetInstance();
 	m_pBOMngr = MyBOManager::GetInstance();
-	m_bBoard = Board(vector3(0, 0, -10));
+	m_bBoard.SetPosition(vector3(0, 0, -10));
+	m_bBoard.Init();
 	m_nPucks = 0;
 	m_lPucks = std::vector<Puck>();
 	m_lPuckNames = std::vector<std::string>();
@@ -15,6 +16,7 @@ void GameManager::Release(void)
 	m_lPucks.clear();
 	m_lPuckNames.clear();
 	m_lModelMatrices.clear();
+	m_bBoard.DeleteBoard();
 }
 GameManager* GameManager::GetInstance()
 {
