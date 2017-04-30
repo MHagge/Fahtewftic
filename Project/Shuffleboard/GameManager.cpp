@@ -39,7 +39,7 @@ void GameManager::RenderObjects(matrix4 a_m4Proj, matrix4 a_m4View)
 }
 void GameManager::AddNewPuck()
 {
-	Puck newPuck = Puck(m_lPuckNames[m_lPuckNames.size()] + std::to_string(m_lPuckNames.size()), vector3(0, 0, 0));
+	Puck newPuck = Puck(m_lPuckNames[m_lPuckNames.size() - 1] + std::to_string(m_lPuckNames.size()), vector3(0, 0, 0));
 	m_lPucks.push_back(newPuck);
 	m_lPuckNames.push_back(newPuck.GetName());
 	m_lModelMatrices.push_back(matrix4(0));
@@ -71,18 +71,19 @@ void GameManager::Update() {
 	m_pBOMngr->Update();
 	for (uint i = 0; i < m_pBOMngr->GetIndexSize(); i++) {
 
-		std::vector<int> indicesA = m_pBOMngr->GetCollidingVector(i);
 		//For each index collision, also get the object collided with
 		//Get all objects collided from colliding indices list
 		//fill vector of confirmed collisions
+		std::vector<int> indicesA = m_pBOMngr->GetCollidingVector(i);
 		std::vector<int> indicesB = m_pBOMngr->GetCollidingVector(i + 1);
 
 		if (indicesA == indicesB) { //placeholder, trying to figure out logistics
-		
+			collisions.push_back(indicesA);
+			collisions.push_back(indicesB);
 		}
-
-		//puckCollisions.pushback(indicesA);
 	}
+
+
 
 }
 //The big 3

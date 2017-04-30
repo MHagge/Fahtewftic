@@ -3,9 +3,9 @@
 void AppClass::InitWindow(String a_sWindowName)
 {
 	super::InitWindow("Planetary ShuffleBoard"); // Window Name
-								  // Set the clear color based on Microsoft's CornflowerBlue (default in XNA)
-								  //if this line is in Init Application it will depend on the .cfg file, if it
-								  //is on the InitVariables it will always force it regardless of the .cfg
+												 // Set the clear color based on Microsoft's CornflowerBlue (default in XNA)
+												 //if this line is in Init Application it will depend on the .cfg file, if it
+												 //is on the InitVariables it will always force it regardless of the .cfg
 	m_v4ClearColor = vector4(0.4f, 0.6f, 0.9f, 0.0f);
 	m_pSystem->SetWindowResolution(RESOLUTIONS::C_1280x720_16x9_HD);
 	//m_pSystem->SetWindowFullscreen(); //Sets the window to be fullscreen
@@ -22,10 +22,13 @@ void AppClass::InitVariables(void)
 		vector3(0.0f, 2.5f, 0.0f),//What Im looking at
 		REAXISY);//What is up
 
-	//Load a model onto the Mesh manager
+				 //Load a model onto the Mesh manager
 
 	m_pGameMngr = GameManager::GetInstance();
 	m_pPhysics = Physics::GetInstance();
+
+	Puck thing = Puck("puck1", vector3(0));
+	m_pGameMngr->AddNewPuck(thing);
 
 	m_bBoard = Board(vector3(0, 0, -10));
 	m_bBoard.Init();
@@ -33,9 +36,9 @@ void AppClass::InitVariables(void)
 	m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
 	m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
 
-	
+
 	//m_pPuck->GenerateSphere(0.5f, 5, RERED);
-	
+
 	std::vector<Puck> p1Pucks;
 	std::vector<Puck> p2Pucks;
 
@@ -52,7 +55,7 @@ void AppClass::InitVariables(void)
 	//for (int i = 0; i < p1Pucks.size; i++) {
 	//	//m_pPuck->(pucks[i].xPos, pucks[i].yPos,pucks[i].zPos REBLACK);
 	//}
-  
+
 	//Load a model onto the Mesh manager
 
 	m_pPlayer1Puck = new PrimitiveClass();
@@ -192,17 +195,17 @@ void AppClass::Release(void)
 void AppClass::SwitchGameState(GameStateEnum a_eNewState) {
 	switch (gameState)
 	{
-		case GameStateEnum::start:
-			gameState = in_play;
-			break;
-		case GameStateEnum::in_play:
-			gameState = end_round;
-			break;
-		case GameStateEnum::end_round:
-			gameState = end_game;
-			break;
-		case GameStateEnum::end_game:
-			gameState = start;
-			break;
+	case GameStateEnum::start:
+		gameState = in_play;
+		break;
+	case GameStateEnum::in_play:
+		gameState = end_round;
+		break;
+	case GameStateEnum::end_round:
+		gameState = end_game;
+		break;
+	case GameStateEnum::end_game:
+		gameState = start;
+		break;
 	}
 }
