@@ -27,17 +27,13 @@ void AppClass::InitVariables(void)
 	m_pGameMngr = GameManager::GetInstance();
 	m_pPhysics = Physics::GetInstance();
 
-	m_bBoard = Board(vector3(0, 0, -10));
-	m_bBoard.Init();
+	//m_bBoard = Board(vector3(0, 0, -10));
+	//m_bBoard.Init();
 
-	m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
-	m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
+	//m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
+	//m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
 
-	
-	//m_pPuck->GenerateSphere(0.5f, 5, RERED);
-	
-	std::vector<Puck> p1Pucks;
-	std::vector<Puck> p2Pucks;
+	m_pGameMngr->AddNewPuck(false);
 
 	//Contains player pucks. WIll certainly be cleaned up in the future
 	//int numPucks = 5;
@@ -53,13 +49,7 @@ void AppClass::InitVariables(void)
   
 				 //Load a model onto the Mesh manager
 
-	m_pPlayer1Puck = new PrimitiveClass();
-	m_pPlayer2Puck = new PrimitiveClass();
-
 	m_pPlayerArrow = new PrimitiveClass();
-
-	m_pPlayer1Puck->GenerateSphere(0.5f, 5, RERED);
-	m_pPlayer2Puck->GenerateSphere(0.5f, 5, REBLUE);
 
 	m_pPlayerArrow->GenerateCone(0.5f, 1.5f, 10, REGREEN);
 
@@ -67,6 +57,8 @@ void AppClass::InitVariables(void)
 
 void AppClass::Update(void)
 {
+	SpacebarInput();
+
 	// position arrow for puck
 	m_mArrow = m_mPuck;
 	m_mArrow *= glm::translate(vector3(0.0f, 0.0f, -2.0f));
@@ -89,18 +81,18 @@ void AppClass::Update(void)
 	m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
 
 
-	if (player1Turn) {
-		m_pMeshMngr->SetModelMatrix(m_mPuck, "Moon");
-		m_pMeshMngr->AddInstanceToRenderList("Moon");
-	}
-	else {
-		m_pMeshMngr->SetModelMatrix(m_mPuck, "Earth");
-		m_pMeshMngr->AddInstanceToRenderList("Earth");
-	}
+	//if (player1Turn) {
+	//	m_pMeshMngr->SetModelMatrix(m_mPuck, "Moon");
+	//	m_pMeshMngr->AddInstanceToRenderList("Moon");
+	//}
+	//else {
+	//	m_pMeshMngr->SetModelMatrix(m_mPuck, "Earth");
+	//	m_pMeshMngr->AddInstanceToRenderList("Earth");
+	//}
 
 	m_pGameMngr->Update();
-	m_pGameMngr->RenderObjects(m_pCameraMngr->GetProjectionMatrix(), m_pCameraMngr->GetViewMatrix());
 
+	m_pGameMngr->SetModelMatrix(m_pGameMngr->GetNumOfPucks(), m_mPuck);
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddSkyboxToRenderList();
 
@@ -159,7 +151,8 @@ void AppClass::Display(void)
 
 	m_pPlayerArrow->Render(m4Projection, m4View, m_mArrow);
 
-	m_bBoard.Render(m4Projection, m4View);
+	//m_bBoard.Render(m4Projection, m4View);
+	m_pGameMngr->RenderObjects(m4Projection, m4View);
 
 	//Render the grid based on the camera's mode:
 	//m_pMeshMngr->AddGridToRenderListBasedOnCamera(m_pCameraMngr->GetCameraMode());
@@ -201,5 +194,22 @@ void AppClass::SwitchGameState(GameStateEnum a_eNewState) {
 		case GameStateEnum::end_game:
 			gameState = start;
 			break;
+	}
+}
+
+void AppClass::SpacebarInput()
+{
+	if (m_bSpacePressed) {
+		if (!rotate) {
+			rotate = true;
+		}
+		else {
+			rotate = false;
+			player1Turn = !player1Turn;
+			matrix4 m4puck = m_mPuck;
+			m_pGameMngr->SetModelMatrix(m_pGameMngr->GetNumOfPucks(), matrix4(0));
+			m_pGameMngr->AddNewPuck(!player1Turn);
+		}
+		m_bSpacePressed = false;
 	}
 }

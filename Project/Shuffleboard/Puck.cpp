@@ -4,6 +4,10 @@
 
 Puck::Puck()
 {
+	m_sName = "";
+	m_v3Position = vector3(0);
+	m_v3Velocity = vector3(0);
+	m_v3Accel = vector3(0);
 }
 
 Puck::Puck(String a_sName, vector3 a_v3Position)

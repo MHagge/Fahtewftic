@@ -79,7 +79,7 @@ void AppClass::ProcessKeyboard(void)
 			}
 		}
 
-		ON_KEY_PRESS_RELEASE(Space, NULL, rotate = !rotate);
+		ON_KEY_PRESS_RELEASE(Space, NULL, m_bSpacePressed = true);
 	}
 	//END MOVE PUCK
 
@@ -149,3 +149,4 @@ void AppClass::ProcessMouse(void)
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
 		m_bFPC = true;
 }
+
