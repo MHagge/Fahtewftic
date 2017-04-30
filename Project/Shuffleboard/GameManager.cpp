@@ -69,7 +69,7 @@ void GameManager::Update() {
 		m_pBOMngr->SetModelMatrix(m_lModelMatrices[i], m_lPuckNames[i]);
 	}
 	m_pBOMngr->Update();
-	for (uint i = 0; i < m_pBOMngr->GetIndexSize(); i++) {
+	for (uint i = 0; i < m_pBOMngr->GetIndexSize()- 1; i++) {
 
 		//For each index collision, also get the object collided with
 		//Get all objects collided from colliding indices list
