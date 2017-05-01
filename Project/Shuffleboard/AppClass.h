@@ -125,7 +125,9 @@ public:
 	virtual void Release(void) final;
 
 	virtual void SwitchGameState(GameStateEnum a_eNewState);
+
 	virtual void SpacebarInput();
+
 };
 /*
 USAGE:

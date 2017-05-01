@@ -20,6 +20,7 @@ void MyBOManager::Release(void)
 	m_lObject.clear();
 	m_llCollidingIndices.clear();
 }
+
 MyBOManager* MyBOManager::GetInstance()
 {
 	if (m_pInstance == nullptr)
@@ -262,4 +263,9 @@ int MyBOManager::GetIndex(String a_sIndex)
 	if (var == m_mapIndex.end())
 		return -1;
 	return var->second;//Get the index
+}
+
+int MyBOManager::GetIndexSize()
+{
+	return m_llCollidingIndices.size();
 }

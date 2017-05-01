@@ -22,6 +22,7 @@ void AppClass::InitVariables(void)
 		vector3(0.0f, 2.5f, 0.0f),//What Im looking at
 		REAXISY);//What is up
 
+
 	//Load a model onto the Mesh manager
 
 	m_pGameMngr = GameManager::GetInstance();
@@ -37,18 +38,21 @@ void AppClass::InitVariables(void)
 	m_pGameMngr->AddNewPuck(false);
 
 	//Contains player pucks. WIll certainly be cleaned up in the future
-	//int numPucks = 5;
-	//for (int i = 0; i < numPucks; i++) {
-	//	Puck* nPuck = new Puck();
-	//	p1Pucks.push_back(nPuck);
-	//	p2Pucks.push_back(nPuck);
-	//}
+	int numPucks = 5;
+	for (int i = 0; i < numPucks; i++) {
+		Puck nPuck;
+		p1Pucks.push_back(nPuck);
+		p2Pucks.push_back(nPuck);
+	}
+
+
 
 	//for (int i = 0; i < p1Pucks.size; i++) {
 	//	//m_pPuck->(pucks[i].xPos, pucks[i].yPos,pucks[i].zPos REBLACK);
 	//}
-  
-				 //Load a model onto the Mesh manager
+
+	//Load a model onto the Mesh manager
+
 
 
 	m_pPlayerArrow = new PrimitiveClass();
@@ -83,6 +87,7 @@ void AppClass::Update(void)
 	m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
 
 
+
 	//m_pMeshMngr->SetModelMatrix(glm::translate(vector3(2, 0, 0)), "Earth");
 	//m_pMeshMngr->AddInstanceToRenderList("Earth");
 
@@ -110,6 +115,7 @@ void AppClass::Update(void)
 	m_pMeshMngr->AddSkyboxToRenderList();
 
 	Prints();
+
 }
 
 void AppClass::Prints(void)
@@ -164,6 +170,7 @@ void AppClass::Display(void)
 
 	m_pPlayerArrow->Render(m4Projection, m4View, m_mArrow);
 
+
 	//m_bBoard.Render(m4Projection, m4View);
 	m_pGameMngr->RenderObjects(m4Projection, m4View);
 
@@ -195,6 +202,7 @@ void AppClass::Release(void)
 void AppClass::SwitchGameState(GameStateEnum a_eNewState) {
 	switch (gameState)
 	{
+
 		case GameStateEnum::start:
 			gameState = in_play;
 			break;

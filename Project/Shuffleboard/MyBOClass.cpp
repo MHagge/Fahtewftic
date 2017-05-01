@@ -89,6 +89,7 @@ MyBOClass::MyBOClass(std::vector<vector3> a_lVectorList)
 }
 MyBOClass::MyBOClass(vector3 a_v3Position, vector3 a_v3Size)
 {
+
 	m_v3Center = vector3(0.0f);
 	m_v3Min = m_v3Center - (vector3(a_v3Size.x / 2.0f, a_v3Size.y / 2.0f, a_v3Size.z / 2.0f));
 	m_v3Max = m_v3Center + (vector3(a_v3Size.x / 2.0f, a_v3Size.y / 2.0f, a_v3Size.z / 2.0f));
