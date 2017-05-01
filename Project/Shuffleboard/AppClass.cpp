@@ -30,14 +30,11 @@ void AppClass::InitVariables(void)
 	//m_bBoard = Board(vector3(0, 0, -10));
 	//m_bBoard.Init();
 
-	m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
-	m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
+	//m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
+	//m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
 
-	
-	//m_pPuck->GenerateSphere(0.5f, 5, RERED);
-	
-	std::vector<Puck> p1Pucks;
-	std::vector<Puck> p2Pucks;
+
+	m_pGameMngr->AddNewPuck(false);
 
 	//Contains player pucks. WIll certainly be cleaned up in the future
 	//int numPucks = 5;
@@ -53,13 +50,8 @@ void AppClass::InitVariables(void)
   
 				 //Load a model onto the Mesh manager
 
-	m_pPlayer1Puck = new PrimitiveClass();
-	m_pPlayer2Puck = new PrimitiveClass();
 
 	m_pPlayerArrow = new PrimitiveClass();
-
-	m_pPlayer1Puck->GenerateSphere(0.5f, 5, RERED);
-	m_pPlayer2Puck->GenerateSphere(0.5f, 5, REBLUE);
 
 	m_pPlayerArrow->GenerateCone(0.5f, 1.5f, 10, REGREEN);
 
@@ -67,6 +59,8 @@ void AppClass::InitVariables(void)
 
 void AppClass::Update(void)
 {
+	SpacebarInput();
+
 	// position arrow for puck
 	m_mArrow = m_mPuck;
 	m_mArrow *= glm::translate(vector3(0.0f, 0.0f, -2.0f));
@@ -89,17 +83,29 @@ void AppClass::Update(void)
 	m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
 
 
-	if (player1Turn) {
-		m_pMeshMngr->SetModelMatrix(m_mPuck, "Moon");
-		m_pMeshMngr->AddInstanceToRenderList("Moon");
-	}
-	else {
-		m_pMeshMngr->SetModelMatrix(m_mPuck, "Earth");
-		m_pMeshMngr->AddInstanceToRenderList("Earth");
-	}
+	//m_pMeshMngr->SetModelMatrix(glm::translate(vector3(2, 0, 0)), "Earth");
+	//m_pMeshMngr->AddInstanceToRenderList("Earth");
 
+
+	//if (player1Turn) {
+	//	m_pMeshMngr->SetModelMatrix(m_mPuck, "Moon");
+	//	m_pMeshMngr->AddInstanceToRenderList("Moon");
+	//}
+	//else {
+	//	m_pMeshMngr->SetModelMatrix(m_mPuck, "Earth");
+	//	m_pMeshMngr->AddInstanceToRenderList("Earth");
+	//}
+
+	m_pGameMngr->SetModelMatrix(m_pGameMngr->GetNumOfPucks() - 1, m_mPuck);
+	std::cout << m_pGameMngr->GetNumOfPucks() << std::endl;
+
+	//for (uint i = 0; i < m_pGameMngr->GetNumOfPucks(); i++) {
+	//	m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(i));
+	//}
+	m_pGameMngr->SetModelMatrix(0, m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0)));
 	m_pGameMngr->Update();
 
+	m_pGameMngr->AddInstances();
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddSkyboxToRenderList();
 
@@ -201,5 +207,22 @@ void AppClass::SwitchGameState(GameStateEnum a_eNewState) {
 		case GameStateEnum::end_game:
 			gameState = start;
 			break;
+	}
+}
+
+void AppClass::SpacebarInput()
+{
+	if (m_bSpacePressed) {
+		if (!rotate) {
+			rotate = true;
+		}
+		else {
+			rotate = false;
+			player1Turn = !player1Turn;
+			m_pGameMngr->SetModelMatrix(0, m_pPhysics->Shoot(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0), 0, 2));
+			Puck newPuck = Puck(std::to_string(m_pGameMngr->GetNumOfPucks()), vector3(0, 0, 0));
+			m_pGameMngr->AddNewPuck(!player1Turn, newPuck);
+		}
+		m_bSpacePressed = false;
 	}
 }

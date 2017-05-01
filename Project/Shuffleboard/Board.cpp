@@ -158,3 +158,8 @@ void Board::SetPosition(vector3 a_v3Input)
 {
 	m_v3Position = a_v3Input;
 }
+
+void Board::SetPosition(vector3 a_v3Input)
+{
+	m_v3Position = a_v3Input;
+}
