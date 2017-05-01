@@ -81,6 +81,10 @@ void AppClass::Update(void)
 	m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
 
 
+	//m_pMeshMngr->SetModelMatrix(glm::translate(vector3(2, 0, 0)), "Earth");
+	//m_pMeshMngr->AddInstanceToRenderList("Earth");
+
+
 	//if (player1Turn) {
 	//	m_pMeshMngr->SetModelMatrix(m_mPuck, "Moon");
 	//	m_pMeshMngr->AddInstanceToRenderList("Moon");
@@ -90,9 +94,16 @@ void AppClass::Update(void)
 	//	m_pMeshMngr->AddInstanceToRenderList("Earth");
 	//}
 
+	m_pGameMngr->SetModelMatrix(m_pGameMngr->GetNumOfPucks() - 1, m_mPuck);
+	std::cout << m_pGameMngr->GetNumOfPucks() << std::endl;
+
+	//for (uint i = 0; i < m_pGameMngr->GetNumOfPucks(); i++) {
+	//	m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(i));
+	//}
+	m_pGameMngr->SetModelMatrix(0, m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0)));
 	m_pGameMngr->Update();
 
-	m_pGameMngr->SetModelMatrix(m_pGameMngr->GetNumOfPucks(), m_mPuck);
+	m_pGameMngr->AddInstances();
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddSkyboxToRenderList();
 
@@ -206,9 +217,9 @@ void AppClass::SpacebarInput()
 		else {
 			rotate = false;
 			player1Turn = !player1Turn;
-			matrix4 m4puck = m_mPuck;
-			m_pGameMngr->SetModelMatrix(m_pGameMngr->GetNumOfPucks(), matrix4(0));
-			m_pGameMngr->AddNewPuck(!player1Turn);
+			m_pGameMngr->SetModelMatrix(0, m_pPhysics->Shoot(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0), 0, 2));
+			Puck newPuck = Puck(std::to_string(m_pGameMngr->GetNumOfPucks()), vector3(0, 0, 0));
+			m_pGameMngr->AddNewPuck(!player1Turn, newPuck);
 		}
 		m_bSpacePressed = false;
 	}

@@ -23,6 +23,6 @@ public:
 	void Release(void);
 	static void ReleaseInstance();
 
-	Puck Shoot(Puck a_puObject, float a_fAngle, float a_fPower);
-	Puck UpdatePhysics(Puck a_puObject);
+	matrix4 Shoot(Puck& a_puObject, matrix4 a_m4model, float a_fAngle, float a_fPower);
+	matrix4 UpdatePhysics(Puck& a_puObject, matrix4 a_m4model);
 };

@@ -32,6 +32,10 @@ public:
 	void AddNewPuck(bool a_bearth, Puck a_puNewPuck);
 	void AddNewPuck(bool a_bearth, Puck a_puNewPuck, matrix4 a_m4Model);
 	void SetModelMatrix(int a_nIndex, matrix4 a_m4Model);
+	matrix4 GetModelMatrix(int a_nIndex);
+	void SetPuckByIndex(int a_nIndex, Puck a_puNew);
+	Puck GetPuckByIndex(int a_nIndex);
+	void AddInstances();
 	void Update();
 	int GetNumOfPucks();
 };
