@@ -25,4 +25,5 @@ public:
 
 	int CalculatePoints();
 	void Render(matrix4 a_m4Proj, matrix4 a_mView);
+	void SetPosition(vector3 a_v3Input);
 };

@@ -127,3 +127,8 @@ void Board::Render(matrix4 a_m4Proj, matrix4 a_m4View)
 		m_vpPlanes[i]->Render(a_m4Proj, a_m4View, m_vm4WorldMats[i]);
 	}
 }
+
+void Board::SetPosition(vector3 a_v3Input)
+{
+	m_v3Position = a_v3Input;
+}

@@ -36,6 +36,7 @@ class AppClass : public ReEngAppClass
 	vector3 m_vPosition = vector3(0.0f, 0.0f, 0.0f);
 
 	bool rotate = false;
+	bool m_bSpacePressed = false;
 
 	bool player1Turn = true;
 	GameStateEnum gameState = GameStateEnum::start;
@@ -124,6 +125,7 @@ public:
 	virtual void Release(void) final;
 
 	virtual void SwitchGameState(GameStateEnum a_eNewState);
+	virtual void SpacebarInput();
 };
 /*
 USAGE:
