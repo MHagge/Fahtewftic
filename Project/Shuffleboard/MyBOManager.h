@@ -18,8 +18,6 @@ class MyBOManager
 	std::vector<std::vector<int>> m_llCollidingIndices; //List of list of colliding indices.
 	std::map<String, uint> m_mapIndex;//Map relating the mesh and the index
 public:
-
-
 	/*
 	USAGE: Gets the static instance of the class
 	ARGUMENTS: ---
@@ -160,11 +158,9 @@ public:
 	*/
 	void Update(void);
 
+
 	//Gets amount of the Colliding indices
 	int GetIndexSize();
-
-
-
 
 private:
 	/*
