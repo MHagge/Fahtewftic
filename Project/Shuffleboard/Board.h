@@ -3,6 +3,7 @@
 #include "RE\ReEngAppClass.h"
 #include "RE\ReEng.h"
 #include "MyPrimitive.h"
+#include "MyBOManager.h"
 
 using namespace ReEng;
 
@@ -14,12 +15,15 @@ private:
 	vector3 m_v3Position;
 	std::vector<PrimitiveClass*> m_vpPlanes;
 	std::vector<matrix4> m_vm4WorldMats;
+	MyBOManager* boManagerObj = nullptr;
+	std::vector<String> m_vsNames;
 
 public:
 	Board();
 	Board(vector3 a_v3Position);
 	Board(vector3 a_v3Position, float a_size);
 	Board(Board &other);
+	Board& Board::operator=(Board const& other);
 	void DeleteBoard();
 	void Init();
 

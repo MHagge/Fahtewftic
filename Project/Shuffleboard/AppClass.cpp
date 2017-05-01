@@ -33,6 +33,7 @@ void AppClass::InitVariables(void)
 	//m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
 	//m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
 
+
 	m_pGameMngr->AddNewPuck(false);
 
 	//Contains player pucks. WIll certainly be cleaned up in the future
@@ -48,6 +49,7 @@ void AppClass::InitVariables(void)
 	//}
   
 				 //Load a model onto the Mesh manager
+
 
 	m_pPlayerArrow = new PrimitiveClass();
 

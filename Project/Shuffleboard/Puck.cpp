@@ -16,6 +16,7 @@ Puck::Puck(String a_sName, vector3 a_v3Position)
 	m_v3Position = a_v3Position;
 	m_v3Velocity = vector3(0);
 	m_v3Accel = vector3(0);
+
 }
 
 Puck & Puck::operator=(Puck const & other)
@@ -71,4 +72,3 @@ void Puck::SetMatrix(matrix4 a_m4New)
 {
 	m_m4Matrix = a_m4New;
 }
-
