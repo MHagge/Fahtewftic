@@ -14,6 +14,7 @@ public:
 	Puck();
 	Puck(String a_sName);
 	Puck(String a_sNamevector3, vector3 a_v3Color);
+
 	Puck& Puck::operator=(Puck const& other);
 	~Puck();
 	void GenerateSphere();

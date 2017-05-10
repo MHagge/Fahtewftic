@@ -44,6 +44,8 @@ class AppClass : public ReEngAppClass
 	float totalR = 0.0f; // total rotation of the current puck
 	float totalP = 0.0f; // total amount left/right of puck
 
+	int maxTurns = 0; // the max turns will be 6 - 3 each puck
+
 public:
 	typedef ReEngAppClass super;
 

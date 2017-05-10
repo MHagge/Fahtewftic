@@ -39,5 +39,7 @@ public:
 	Puck GetPuckByIndex(int a_nIndex);
 	void AddInstances();
 	void Update();
+	void SetUpGame();
+	void ClearList();
 	int GetNumOfPucks();
 };

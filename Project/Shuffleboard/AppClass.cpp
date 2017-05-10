@@ -36,7 +36,8 @@ void AppClass::InitVariables(void)
 
 
 	m_pGameMngr->AddNewPuck(false);
-	m_pGameMngr->AddNewPuck(true);
+
+	//m_pGameMngr->AddNewPuck(true);
 
 
 	//for (int i = 0; i < p1Pucks.size; i++) {
@@ -48,7 +49,6 @@ void AppClass::InitVariables(void)
 
 
 	m_pPlayerArrow = new PrimitiveClass();
-
 	m_pPlayerArrow->GenerateCone(0.5f, 1.5f, 10, REBLUE);
 
 }
@@ -77,7 +77,6 @@ void AppClass::Update(void)
 
 	//Set the model matrix for the first model to be the arcball
 	m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
-
 
 
 
@@ -186,6 +185,8 @@ void AppClass::SwitchGameState(GameStateEnum a_eNewState) {
 
 		case GameStateEnum::start:
 			gameState = in_play;
+			m_pGameMngr->SetUpGame();
+			m_mPuck = IDENTITY_M4;
 			break;
 		case GameStateEnum::in_play:
 			gameState = end_round;
@@ -195,6 +196,7 @@ void AppClass::SwitchGameState(GameStateEnum a_eNewState) {
 			break;
 		case GameStateEnum::end_game:
 			gameState = start;
+			maxTurns = 0;
 			break;
 	}
 }
@@ -206,15 +208,23 @@ void AppClass::SpacebarInput()
 			rotate = true;
 		}
 		else {
-			rotate = false;
-			player1Turn = !player1Turn;
-			//m_pGameMngr->SetModelMatrix(0, m_pPhysics->Shoot(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0), 0, 2));
-			//Puck newPuck = Puck(std::to_string(m_pGameMngr->GetNumOfPucks()), vector3(0, 0, 0));
-
-			//testing on first puck
-			m_pPhysics->Shoot(1.0f, 2.0f);//(angle, power)
-
-			m_pGameMngr->AddNewPuck(!player1Turn);
+			if (maxTurns < 5) {
+				rotate = false;
+				player1Turn = !player1Turn;
+				//m_pGameMngr->SetModelMatrix(0, m_pPhysics->Shoot(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0), 0, 2));
+				//Puck newPuck = Puck(std::to_string(m_pGameMngr->GetNumOfPucks()), vector3(0, 0, 0));
+				
+				//testing on first puck
+				m_pPhysics->Shoot(1.0f, 2.0f);//(angle, power)
+				
+				m_pGameMngr->AddNewPuck(!player1Turn);
+				maxTurns++;
+			}
+			else {
+				SwitchGameState(end_round);
+				rotate = false;
+				maxTurns = 0;
+			}
 		}
 		m_bSpacePressed = false;
 	}

@@ -16,6 +16,7 @@ Puck::Puck(String a_sName)
 	m_m4Matrix = IDENTITY_M4;
 	m_vColor = RERED;
 	m_pPuck = new PrimitiveClass();
+
 }
 
 Puck::Puck(String a_sName, vector3 a_v3Color) {
@@ -30,8 +31,8 @@ Puck & Puck::operator=(Puck const & other)
 	return *this;
 }
 
-Puck::~Puck()
-{
+
+Puck::~Puck() {
 }
 
 void Puck::GenerateSphere()

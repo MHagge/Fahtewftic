@@ -24,7 +24,6 @@ void Physics::ReleaseInstance()
 	}
 }
 
-
 void Physics::Shoot(float a_fAngle, float a_fPower)
 {
 	m_fVelocity = 0.0f;
