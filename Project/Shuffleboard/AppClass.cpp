@@ -36,15 +36,7 @@ void AppClass::InitVariables(void)
 
 
 	m_pGameMngr->AddNewPuck(false);
-
-	//Contains player pucks. WIll certainly be cleaned up in the future
-	int numPucks = 5;
-	for (int i = 0; i < numPucks; i++) {
-		Puck nPuck;
-		p1Pucks.push_back(nPuck);
-		p2Pucks.push_back(nPuck);
-	}
-
+	m_pGameMngr->AddNewPuck(true);
 
 
 	//for (int i = 0; i < p1Pucks.size; i++) {
@@ -57,7 +49,7 @@ void AppClass::InitVariables(void)
 
 	m_pPlayerArrow = new PrimitiveClass();
 
-	m_pPlayerArrow->GenerateCone(0.5f, 1.5f, 10, REGREEN);
+	m_pPlayerArrow->GenerateCone(0.5f, 1.5f, 10, REBLUE);
 
 }
 
@@ -107,7 +99,7 @@ void AppClass::Update(void)
 	//for (uint i = 0; i < m_pGameMngr->GetNumOfPucks(); i++) {
 	//	m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(i));
 	//}
-	m_pGameMngr->SetModelMatrix(0, m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0)));
+	//m_pGameMngr->SetModelMatrix(0, m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0)));
 	m_pGameMngr->Update();
 
 	m_pGameMngr->AddInstances();
@@ -227,7 +219,7 @@ void AppClass::SpacebarInput()
 		else {
 			rotate = false;
 			player1Turn = !player1Turn;
-			m_pGameMngr->SetModelMatrix(0, m_pPhysics->Shoot(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0), 0, 2));
+			//m_pGameMngr->SetModelMatrix(0, m_pPhysics->Shoot(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0), 0, 2));
 			Puck newPuck = Puck(std::to_string(m_pGameMngr->GetNumOfPucks()), vector3(0, 0, 0));
 			m_pGameMngr->AddNewPuck(!player1Turn, newPuck);
 		}
