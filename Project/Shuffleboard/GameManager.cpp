@@ -74,17 +74,6 @@ void GameManager::AddNewPuck(bool a_bearth, Puck a_puNewPuck)
 
 	m_pBOMngr->AddObject(a_puNewPuck.GetName());
 }
-void GameManager::AddNewPuck(Puck a_puNewPuck, matrix4 a_m4Model)
-
-	m_nPucks++;
-	m_pBOMngr->AddObject(a_puNewPuck.GetName());
-	if (a_bearth) {
-		m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", a_puNewPuck.GetName());
-	}
-	else {
-		m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", a_puNewPuck.GetName());
-	}
-}
 void GameManager::AddNewPuck(bool a_bearth, Puck a_puNewPuck, matrix4 a_m4Model)
 {
 	m_lPucks.push_back(a_puNewPuck);
@@ -106,13 +95,13 @@ void GameManager::SetModelMatrix(int a_nIndex, matrix4 a_m4Model)
 }
 void GameManager::Update() {
 	for (uint i = 0; i < m_lModelMatrices.size(); i++) {
-  m_lModelMatrices[i] *= glm::translate(m_lPucks[i].GetPosition());
-  
+		m_lModelMatrices[i] *= glm::translate(m_lPucks[i].GetPosition());
+
 		m_pMeshMngr->SetModelMatrix(m_lModelMatrices[i], m_lPuckNames[i]);
 		m_pBOMngr->SetModelMatrix(m_lModelMatrices[i], m_lPuckNames[i]);
 	}
 	m_pBOMngr->Update();
-	for (uint i = 0; i < m_pBOMngr->GetIndexSize()- 1; i++) {
+	for (uint i = 0; i < m_pBOMngr->GetIndexSize() - 1; i++) {
 
 		//For each index collision, also get the object collided with
 		//Get all objects collided from colliding indices list
@@ -125,7 +114,7 @@ void GameManager::Update() {
 			collisions.push_back(indicesB);
 		}
 	}
-
+}
 
 
 matrix4 GameManager::GetModelMatrix(int a_nIndex)
