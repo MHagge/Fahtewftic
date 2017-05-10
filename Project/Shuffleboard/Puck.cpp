@@ -71,4 +71,3 @@ void Puck::SetMatrix(matrix4 a_m4New)
 {
 	m_m4Matrix = a_m4New;
 }
-

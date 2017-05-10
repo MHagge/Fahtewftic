@@ -158,6 +158,10 @@ public:
 	*/
 	void Update(void);
 
+
+	//Gets amount of the Colliding indices
+	int GetIndexSize();
+
 private:
 	/*
 	USAGE: instantiates the object

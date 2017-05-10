@@ -15,6 +15,8 @@ private:
 	std::vector<Puck> m_lPucks;
 	std::vector<std::string> m_lPuckNames;
 	std::vector<matrix4> m_lModelMatrices;
+	std::vector<std::vector<int>> collisions;
+
 
 	void Init(void);
 	GameManager::GameManager();
