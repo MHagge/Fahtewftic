@@ -15,6 +15,8 @@ private:
 	std::vector<Puck> m_lPucks;
 	std::vector<std::string> m_lPuckNames;
 	std::vector<matrix4> m_lModelMatrices;
+	std::vector<std::vector<int>> collisions;
+
 
 	void Init(void);
 	GameManager::GameManager();
@@ -37,5 +39,7 @@ public:
 	Puck GetPuckByIndex(int a_nIndex);
 	void AddInstances();
 	void Update();
+	void SetUpGame();
+	void ClearList();
 	int GetNumOfPucks();
 };

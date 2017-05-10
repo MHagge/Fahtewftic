@@ -24,6 +24,7 @@ void Physics::ReleaseInstance()
 	}
 }
 
+
 matrix4 Physics::Shoot(Puck &a_puObject, matrix4 a_m4model, float a_fAngle, float a_fPower)
 {
 	vector3 velocity = vector3(1.0f, 0.0f, 1.0f);
