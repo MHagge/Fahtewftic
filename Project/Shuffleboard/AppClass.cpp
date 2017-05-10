@@ -49,7 +49,7 @@ void AppClass::InitVariables(void)
 
 	m_pPlayerArrow = new PrimitiveClass();
 
-	m_pPlayerArrow->GenerateCone(0.5f, 1.5f, 10, REGREEN);
+	m_pPlayerArrow->GenerateCone(0.5f, 1.5f, 10, REBLUE);
 
 }
 
