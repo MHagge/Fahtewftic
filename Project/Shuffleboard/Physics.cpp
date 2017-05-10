@@ -24,28 +24,24 @@ void Physics::ReleaseInstance()
 	}
 }
 
-Puck Physics::Shoot(Puck a_puObject, float a_fAngle, float a_fPower)
+
+void Physics::Shoot(float a_fAngle, float a_fPower)
 {
-	vector3 velocity = vector3(1.0f, 1.0f, 1.0f);
-	velocity *= a_fPower;
-	a_puObject.SetVelocity(velocity);
-	return a_puObject;
+	m_fVelocity = 0.0f;
+	m_fVelocity = a_fPower;
 }
 
-Puck Physics::UpdatePhysics(Puck a_puObject)
+void Physics::UpdatePhysics(Puck &a_puObject)
 {
-	vector3 position = a_puObject.GetPosition();
-	vector3 velocity = a_puObject.GetVelocity();
-	velocity *= m_fFriction;
-	position += velocity;
-	a_puObject.SetPosition(position);
-	a_puObject.SetVelocity(velocity);
-	return a_puObject;
+	matrix4 a_m4model = a_puObject.GetMatrix();
+	m_fVelocity *= m_fFriction;
+	a_m4model *= m_fVelocity;
+	a_puObject.SetMatrix(a_m4model);
 }
 
 void Physics::Init(void)
 {
-	m_fFriction = 0.1f;
+	m_fFriction = 1.00f;
 }
 
 Physics::Physics() { Init(); }

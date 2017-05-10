@@ -11,6 +11,7 @@ private:
 	static Physics* m_pInstance;
 
 	float m_fFriction;
+	float m_fVelocity;
 
 	void Init(void);
 	Physics::Physics();
@@ -22,7 +23,6 @@ public:
 	static Physics* GetInstance();
 	void Release(void);
 	static void ReleaseInstance();
-
-	Puck Shoot(Puck a_puObject, float a_fAngle, float a_fPower);
-	Puck UpdatePhysics(Puck a_puObject);
+	void Shoot(float a_fAngle, float a_fPower);
+	void UpdatePhysics(Puck& a_puObject);
 };

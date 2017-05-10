@@ -15,6 +15,8 @@ private:
 	std::vector<Puck> m_lPucks;
 	std::vector<std::string> m_lPuckNames;
 	std::vector<matrix4> m_lModelMatrices;
+	std::vector<std::vector<int>> collisions;
+
 
 	void Init(void);
 	GameManager::GameManager();
@@ -28,9 +30,14 @@ public:
 	static void ReleaseInstance();
 
 	void RenderObjects(matrix4 a_m4Proj, matrix4 a_m4View);
-	void AddNewPuck();
-	void AddNewPuck(Puck a_puNewPuck);
-	void AddNewPuck(Puck a_puNewPuck, matrix4 a_m4Model);
+	void AddNewPuck(bool a_bearth);
+	void AddNewPuck(bool a_bearth, Puck a_puNewPuck);
+	void AddNewPuck(bool a_bearth, Puck a_puNewPuck, matrix4 a_m4Model);
 	void SetModelMatrix(int a_nIndex, matrix4 a_m4Model);
+	matrix4 GetModelMatrix(int a_nIndex);
+	void SetPuckByIndex(int a_nIndex, Puck a_puNew);
+	Puck GetPuckByIndex(int a_nIndex);
+	void AddInstances();
 	void Update();
+	int GetNumOfPucks();
 };
