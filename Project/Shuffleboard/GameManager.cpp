@@ -131,6 +131,8 @@ void GameManager::Update() {
 			collisions.push_back(indicesB);
 		}
 	}
+
+	Scoring();
 }
 
 
@@ -169,6 +171,69 @@ int GameManager::GetNumOfPucks()
 {
 	return m_nPucks;
 }
+void GameManager::Scoring()
+{
+
+	for (int i = 0; i < m_bBoard.m_vsNames.size(); i++) {
+		boardCollisions.push_back(m_pBOMngr->GetCollidingVector(m_bBoard.m_vsNames[i]));
+	}
+
+	if (boardCollisions.size() > 0) {
+		for (int i = 0; i < 7; i++) { //Board piece to board piece
+
+									  //if()
+									  //For every board piece
+									  //if that index has a vector of colliding objects greater than size 0
+									  //and if it does, check color and increase corresponding score
+			String name = m_pBOMngr->GetName(m_bBoard.m_vsNames[i]);
+			int points = 0;
+			bool scored = false;
+
+			if (name == "10 Points" || name == "10 Points Back")
+			{
+				points = 10;
+				scored = true;
+			}
+
+			else if (name == "8 Points L" || name == "8 Points R") {
+
+				points = 8;
+				scored = true;
+			}
+
+			else if (name == "7 Points L" || name == "7 Points R") {
+				points = 7;
+				scored = true;
+			}
+
+			//check to see if that vector is greater than 0
+			//If greater than 0, iterate through that vector, For each index get corresponding name
+			//loop through m_lPucks, check if above names matches 
+
+			for (int j = 0; j < boardCollisions[i].size(); j++) {
+				//boardCollisions[i][j]
+				String colName = m_pBOMngr->GetName(boardCollisions[i][j]);
+				for (int k = 0; k < m_lPucks.size(); k++) {
+					if (m_lPucks[k].GetName() == colName) {
+						if (scored) {
+							if (m_lPucks[i].GetColor() == RERED) {
+								p1Score += points;
+							}
+							else if (m_lPucks[i].GetColor() == REGREEN) {
+								p2Score += points;
+							}
+						}
+					}
+
+				}
+
+			}
+
+
+		}
+	}
+}
+
 //The big 3
 GameManager::GameManager() { Init(); }
 GameManager::GameManager(GameManager const& other) { }

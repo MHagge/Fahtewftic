@@ -28,6 +28,8 @@ public:
 	static GameManager* GetInstance();
 	void Release(void);
 	static void ReleaseInstance();
+	std::vector<std::vector<int>> boardCollisions;
+	int p1Score, p2Score = 0;
 
 	void RenderObjects(matrix4 a_m4Proj, matrix4 a_m4View);
 	void AddNewPuck(bool a_bearth);
@@ -39,6 +41,7 @@ public:
 	Puck& GetPuckByIndex(int a_nIndex);
 	void AddInstances();
 	void Update();
+	void Scoring();
 	void SetUpGame();
 	void ClearList();
 	int GetNumOfPucks();

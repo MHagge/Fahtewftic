@@ -18,8 +18,8 @@ void AppClass::InitVariables(void)
 	m_selection = std::pair<int, int>(-1, -1);
 	//Set the camera position
 	m_pCameraMngr->SetPositionTargetAndView(
-		vector3(0.0f, 2.5f, 15.0f),//Camera position
-		vector3(0.0f, 2.5f, 0.0f),//What Im looking at
+		vector3(0.0f, 25.0f, 15.0f),//Camera position
+		vector3(0.0f, 5.0f, 0.0f),//What Im looking at
 		REAXISY);//What is up
 
 
@@ -28,19 +28,16 @@ void AppClass::InitVariables(void)
 	m_pGameMngr = GameManager::GetInstance();
 	m_pPhysics = Physics::GetInstance();
 
-
-
-
 	m_pGameMngr->AddNewPuck(true);
-
-
-
 
 	m_pPlayerArrow = new PrimitiveClass();
 	m_pPlayerArrow->GenerateCone(0.5f, 1.5f, 10, REBLUE);
 
 	m_pCubeMeter = new PrimitiveClass();
 	m_pCubeMeter->GenerateCube(1.0f, REWHITE);
+
+	m_pMeterBG = new PrimitiveClass();
+	m_pMeterBG->GenerateCube(1.0f, REBLACK);
 }
 
 void AppClass::Update(void)
@@ -78,7 +75,7 @@ void AppClass::Update(void)
 	fPercentage = MapValue(fTimer, 0.0f, fTotalTime, 0.0f, 1.0f); //percentage of the time used
 
 	static vector3 scale1 = vector3(1.0f, 0.0f, 0.0f);
-	static vector3 scale2 = vector3(1.0f, 6.0f, 0.0f);
+	static vector3 scale2 = vector3(1.0f, 0.0f, 6.0f);
 
 	vector3 v3Meter = glm::lerp(scale1, scale2, fPercentage);
 	scaleMeter = glm::translate(IDENTITY_M4, vector3(6.0f, 2.0f, 2.0f));
@@ -89,7 +86,9 @@ void AppClass::Update(void)
 		fTimer = 0.0f;
 	}
 
-	
+	scaleMBG = glm::translate(IDENTITY_M4, vector3(6.0f, 1.9f, 2.0f));
+	scaleMBG = glm::scale(scaleMBG, 1.2f, 0.0f, 6.2f);
+
 	static float fTimer2 = 0.0f;//creates a timer
 	if (shooting) {
 		fTimer2 += fDeltaTime;//add the delta time to the current clock
@@ -171,6 +170,12 @@ void AppClass::Prints(void)
 	if (gameState == 0) {
 		m_pMeshMngr->PrintLine("Press Tab to Begin");
 	}
+
+	m_pMeshMngr->Print("Player 1 Score: ");
+	m_pMeshMngr->PrintLine(std::to_string(m_pGameMngr->p1Score), REGREEN);
+
+	m_pMeshMngr->Print("Player 2 Score: ");
+	m_pMeshMngr->PrintLine(std::to_string(m_pGameMngr->p2Score), RERED);
 }
 
 void AppClass::Display(void)
@@ -181,9 +186,12 @@ void AppClass::Display(void)
 	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix();
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
 
-	m_pPlayerArrow->Render(m4Projection, m4View, m_mArrow);
-	if (!rotate && !movement) {
+	if (gameState != end_round) {
+		m_pPlayerArrow->Render(m4Projection, m4View, m_mArrow);
+	}
+	if (!rotate && !movement && gameState != end_round) {
 		m_pCubeMeter->Render(m4Projection, m4View, scaleMeter);
+		m_pMeterBG->Render(m4Projection, m4View, scaleMBG);
 	}
 
 	//m_bBoard.Render(m4Projection, m4View);
@@ -222,7 +230,7 @@ void AppClass::SwitchGameState(GameStateEnum a_eNewState) {
 			gameState = in_play;
 			m_pGameMngr->SetUpGame();
 			m_mPuck = IDENTITY_M4;
-			player1Turn = true;
+			player1Turn = false;
 			totalP = 0.0f;
 			totalP = 0.0f;
 			break;
