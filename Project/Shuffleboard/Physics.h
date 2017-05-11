@@ -23,7 +23,7 @@ public:
 	static Physics* GetInstance();
 	void Release(void);
 	static void ReleaseInstance();
-	void Shoot(float a_fAngle, float a_fPower);
-	void UpdatePhysics(Puck& a_puObject);
+	Puck& Shoot(Puck &a_puObject, float a_fPower);
+	Puck& UpdatePhysics(Puck& a_puObject);
 
 };

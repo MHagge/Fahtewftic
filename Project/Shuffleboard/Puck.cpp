@@ -4,10 +4,11 @@
 
 Puck::Puck()
 {
-	m_sName = "";
+	m_sName = "1";
 	m_m4Matrix = IDENTITY_M4;
 	m_vColor = RERED;
 	m_pPuck = new PrimitiveClass();
+	velocity = vector3(0);
 }
 
 Puck::Puck(String a_sName)
@@ -16,6 +17,7 @@ Puck::Puck(String a_sName)
 	m_m4Matrix = IDENTITY_M4;
 	m_vColor = RERED;
 	m_pPuck = new PrimitiveClass();
+	velocity = vector3(0);
 
 }
 
@@ -24,6 +26,7 @@ Puck::Puck(String a_sName, vector3 a_v3Color) {
 	m_m4Matrix = IDENTITY_M4;
 	m_vColor = a_v3Color;
 	m_pPuck = new PrimitiveClass();
+	velocity = vector3(0);
 }
 
 Puck & Puck::operator=(Puck const & other)
@@ -53,6 +56,16 @@ matrix4 Puck::GetMatrix()
 vector3 Puck::GetColor()
 {
 	return m_vColor;
+}
+
+vector3 Puck::GetVelocity()
+{
+	return velocity;
+}
+
+void Puck::SetVelocity(vector3 a_v3velocity)
+{
+	velocity = a_v3velocity;
 }
 
 void Puck::SetMatrix(matrix4 a_m4New)

@@ -6,6 +6,7 @@ private:
 
 	matrix4 m_m4Matrix;
 	String m_sName;
+	vector3 velocity;
 	vector3 m_vColor;
 	PrimitiveClass* m_pPuck = nullptr;
 
@@ -21,6 +22,8 @@ public:
 	String GetName();
 	matrix4 GetMatrix();
 	vector3 GetColor();
+	vector3 GetVelocity();
+	void SetVelocity(vector3 a_v3velocity);
 	void SetMatrix(matrix4 a_m4New);
 	void SetColor(vector3 a_v3Color);
 	void Render(matrix4 m4Projection, matrix4 m4View);

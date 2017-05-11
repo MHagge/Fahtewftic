@@ -137,7 +137,7 @@ void GameManager::Update() {
 void GameManager::SetUpGame()
 {
 	ClearList();
-	AddNewPuck(false);
+	AddNewPuck(true);
 	m_nPucks = 1;
 }
 
@@ -156,10 +156,11 @@ void GameManager::SetPuckByIndex(int a_nIndex, Puck a_puNew)
 {
 	m_lPucks[a_nIndex] = a_puNew;
 }
-Puck GameManager::GetPuckByIndex(int a_nIndex)
+Puck& GameManager::GetPuckByIndex(int a_nIndex)
 {
 	return m_lPucks[a_nIndex];
 }
+
 void GameManager::AddInstances()
 {
 	m_pMeshMngr->AddInstanceToRenderList("ALL");

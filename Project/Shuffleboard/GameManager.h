@@ -36,7 +36,7 @@ public:
 	void SetModelMatrix(int a_nIndex, matrix4 a_m4Model);
 	matrix4 GetModelMatrix(int a_nIndex);
 	void SetPuckByIndex(int a_nIndex, Puck a_puNew);
-	Puck GetPuckByIndex(int a_nIndex);
+	Puck& GetPuckByIndex(int a_nIndex);
 	void AddInstances();
 	void Update();
 	void SetUpGame();

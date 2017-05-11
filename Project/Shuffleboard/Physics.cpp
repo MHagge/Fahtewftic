@@ -24,23 +24,32 @@ void Physics::ReleaseInstance()
 	}
 }
 
-void Physics::Shoot(float a_fAngle, float a_fPower)
+Puck& Physics::Shoot(Puck &a_puObject, float a_fPower)
 {
-	m_fVelocity = 0.0f;
-	m_fVelocity = a_fPower;
+	vector3 direction = (vector3)glm::normalize(a_puObject.GetMatrix()*vector4(1, 1, 1, 0));
+	direction *= a_fPower;
+	a_puObject.SetVelocity(direction);
+
+	return a_puObject;
+	//m_fVelocity = 0.0f;
+	//m_fVelocity = a_fPower;
 }
 
-void Physics::UpdatePhysics(Puck &a_puObject)
+Puck& Physics::UpdatePhysics(Puck &a_puObject)
 {
-	matrix4 a_m4model = a_puObject.GetMatrix();
-	m_fVelocity *= m_fFriction;
-	a_m4model *= m_fVelocity;
-	a_puObject.SetMatrix(a_m4model);
+	a_puObject.SetVelocity(a_puObject.GetVelocity()*m_fFriction);
+	a_puObject.SetMatrix(glm::translate(a_puObject.GetMatrix(), a_puObject.GetVelocity()));
+
+	return a_puObject;
+	//matrix4 a_m4model = a_puObject.GetMatrix();
+	//m_fVelocity *= m_fFriction;
+	//a_m4model *= m_fVelocity;
+	//a_puObject.SetMatrix(a_m4model);
 }
 
 void Physics::Init(void)
 {
-	m_fFriction = 1.00f;
+	m_fFriction = .05f;
 }
 
 Physics::Physics() { Init(); }

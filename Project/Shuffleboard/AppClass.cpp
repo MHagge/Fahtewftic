@@ -28,23 +28,11 @@ void AppClass::InitVariables(void)
 	m_pGameMngr = GameManager::GetInstance();
 	m_pPhysics = Physics::GetInstance();
 
-	//m_bBoard = Board(vector3(0, 0, -10));
-	//m_bBoard.Init();
-
-	//m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
-	//m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
 
 
-	m_pGameMngr->AddNewPuck(false);
 
-	//m_pGameMngr->AddNewPuck(true);
+	m_pGameMngr->AddNewPuck(true);
 
-
-	//for (int i = 0; i < p1Pucks.size; i++) {
-	//	//m_pPuck->(pucks[i].xPos, pucks[i].yPos,pucks[i].zPos REBLACK);
-	//}
-
-	//Load a model onto the Mesh manager
 
 
 
@@ -85,7 +73,13 @@ void AppClass::Update(void)
 	std::cout << m_pGameMngr->GetNumOfPucks() << std::endl;
 
 	//for (uint i = 0; i < m_pGameMngr->GetNumOfPucks(); i++) {
-		m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(0));
+	
+	m_pGameMngr->SetPuckByIndex(0, m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(0)));
+
+	//m_pGameMngr->GetPuckByIndex(m_pGameMngr->GetNumOfPucks() - 1) = m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(m_pGameMngr->GetNumOfPucks() - 1));
+	
+		//m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(0));
+		//m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(m_pGameMngr->GetNumOfPucks()-1));
 	//}
 	//m_pGameMngr->SetModelMatrix(0, m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0)));
 	m_pGameMngr->Update();
@@ -187,6 +181,9 @@ void AppClass::SwitchGameState(GameStateEnum a_eNewState) {
 			gameState = in_play;
 			m_pGameMngr->SetUpGame();
 			m_mPuck = IDENTITY_M4;
+			player1Turn = true;
+			totalP = 0.0f;
+			totalP = 0.0f;
 			break;
 		case GameStateEnum::in_play:
 			gameState = end_round;
@@ -215,7 +212,10 @@ void AppClass::SpacebarInput()
 				//Puck newPuck = Puck(std::to_string(m_pGameMngr->GetNumOfPucks()), vector3(0, 0, 0));
 				
 				//testing on first puck
-				m_pPhysics->Shoot(1.0f, 2.0f);//(angle, power)
+				m_pGameMngr->SetPuckByIndex(0, m_pPhysics->Shoot(m_pGameMngr->GetPuckByIndex(0), 2.0f));
+
+				//m_pGameMngr->GetPuckByIndex(0).SetVelocity(m_pPhysics->Shoot(m_pGameMngr->GetPuckByIndex(0), 2.0f));
+				//m_pGameMngr->GetPuckByIndex(m_pGameMngr->GetNumOfPucks()-1).SetVelocity(m_pPhysics->Shoot(m_pGameMngr->GetPuckByIndex(m_pGameMngr->GetNumOfPucks()-1), 2.0f));
 				
 				m_pGameMngr->AddNewPuck(!player1Turn);
 				maxTurns++;
