@@ -17,7 +17,6 @@ private:
 	std::vector<matrix4> m_vm4WorldMats;
 
 	MyBOManager* boManagerObj = nullptr;
-	
 
 
 public:

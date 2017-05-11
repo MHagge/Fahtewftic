@@ -17,6 +17,8 @@ private:
 	std::vector<matrix4> m_lModelMatrices;
 	std::vector<std::vector<int>> collisions;
 
+	int p1Score, p2Score = 0;
+
 
 	void Init(void);
 	GameManager::GameManager();

@@ -107,7 +107,7 @@ void Board::Init()
 
 	m_vm4WorldMats.push_back(working);
 
-	for (int i = 0; i < m_vsNames.size; i++) {
+	for (int i = 0; i < m_vsNames.size(); i++) {
 		boardCollisions.push_back(boManagerObj->GetCollidingVector(m_vsNames[i]));
 	}
 
