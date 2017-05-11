@@ -107,6 +107,10 @@ void AppClass::Update(void)
 			fPercentage2 = 0.0f;
 		}
 	}
+	else {
+		fTimer2 = 0.0f;
+		fPercentage2 = 0.0f;
+	}
 
 	m_pGameMngr->SetModelMatrix(m_pGameMngr->GetNumOfPucks() - 1, m_mPuck);
 
@@ -229,6 +233,8 @@ void AppClass::SwitchGameState(GameStateEnum a_eNewState) {
 			break;
 		case GameStateEnum::end_round:
 			gameState = end_game;
+			rotate = false;
+			movement = true;
 			break;
 		case GameStateEnum::end_game:
 			gameState = start;
@@ -248,7 +254,7 @@ void AppClass::SpacebarInput()
 			rotate = false;
 		}
 		else if (!rotate && !movement) {
-			if (maxTurns < 5) {
+			if (maxTurns < 6) {
 				
 				if (!shooting) {
 					Shoot();

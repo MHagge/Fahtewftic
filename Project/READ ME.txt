@@ -1,0 +1,13 @@
+DIRECTIONS:
+
+-Tab cycles game states - START, IN-PLAY, END ROUND, END GAME
+-IN-PLAY:
+	-Game will reset if previously played
+	-Arrow keys (left and right) move the puck
+	-Pressing space will go from movement to rotation
+	-Arrow keys after, change rotation
+	-Pressing space a second time brings up power meter, which determines strength of shot
+	-Pressing space a third time shoots the puck
+	-Press space a fourth time to bring up other player's ball
+	-Both players get 3 shots each
+-END ROUND and END GAME are essentially the end states after both players finish shooting
