@@ -3,6 +3,7 @@
 #include "Puck.h"
 #include "MyBOManager.h"
 #include "Board.h"
+#include "Meter.h"
 
 class GameManager {
 private:
@@ -16,7 +17,6 @@ private:
 	std::vector<std::string> m_lPuckNames;
 	std::vector<matrix4> m_lModelMatrices;
 	std::vector<std::vector<int>> collisions;
-
 
 	void Init(void);
 	GameManager::GameManager();

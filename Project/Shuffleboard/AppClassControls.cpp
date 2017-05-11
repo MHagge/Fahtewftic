@@ -46,7 +46,7 @@ void AppClass::ProcessKeyboard(void)
 	//MOVE PUCK
 	if (gameState == 1) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			if (!rotate) {
+			if (!rotate && movement) {
 				if (totalP <= 2.0) {
 					m_vPosition += vector3(0.1f, 0.0f, 0.0f);
 					m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
@@ -54,7 +54,7 @@ void AppClass::ProcessKeyboard(void)
 					totalP += 0.1f;
 				}
 			}
-			else {
+			else if (rotate && !movement){
 				if (totalR > -50.0f) {
 					m_mPuck *= glm::rotate(IDENTITY_M4, -2.0f, REAXISY);
 					totalR -= 2.0f;
@@ -63,7 +63,7 @@ void AppClass::ProcessKeyboard(void)
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			if (!rotate) {
+			if (!rotate && movement) {
 				if (totalP >= -2.0) {
 					m_vPosition += vector3(-0.1f, 0.0f, 0.0f);
 					m_mPuck = glm::translate(IDENTITY_M4, m_vPosition);
@@ -71,7 +71,7 @@ void AppClass::ProcessKeyboard(void)
 					totalP -= 0.1f;
 				}
 			}
-			else {
+			else if (rotate && !movement){
 				if (totalR < 50.0f) {
 					m_mPuck *= glm::rotate(IDENTITY_M4, 2.0f, REAXISY);
 					totalR += 2.0f;

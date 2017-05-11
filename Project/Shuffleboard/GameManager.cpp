@@ -45,10 +45,11 @@ void GameManager::RenderObjects(matrix4 a_m4Proj, matrix4 a_m4View)
 	}
 	m_bBoard.Render(a_m4Proj, a_m4View);
 }
+
 void GameManager::AddNewPuck(bool a_bearth)
 {
 	Puck newPuck;
-	if (m_lPuckNames.size() == 0) {
+	if (m_lPucks.size() < 1) {
 		if (a_bearth) {
 			newPuck = Puck("First", vector3(0, 0, 0), REGREEN);
 		}
@@ -59,10 +60,10 @@ void GameManager::AddNewPuck(bool a_bearth)
 	}
 	else {
 		if (a_bearth) {
-			newPuck = Puck(m_lPuckNames[m_lPuckNames.size() - 1] + std::to_string(m_lPuckNames.size()), vector3(0, 0, 0), REGREEN);
+			newPuck = Puck(m_lPucks[m_lPucks.size() - 1].GetName() + std::to_string(m_lPucks.size()), vector3(0, 0, 0), REGREEN);
 		}
 		else {
-			newPuck = Puck(m_lPuckNames[m_lPuckNames.size() - 1] + std::to_string(m_lPuckNames.size()), vector3(0, 0, 0), RERED);
+			newPuck = Puck(m_lPucks[m_lPucks.size() - 1].GetName() + std::to_string(m_lPucks.size()), vector3(0, 0, 0), RERED);
 		}
 		//newPuck = Puck(m_lPuckNames[m_lPuckNames.size() - 1] + std::to_string(m_lPuckNames.size()), vector3(0, 0, 0));
 	}
@@ -79,12 +80,6 @@ void GameManager::AddNewPuck(bool a_bearth)
 	m_lModelMatrices.push_back(matrix4(0));
 	m_nPucks++;
 	m_pBOMngr->AddObject(newPuck.GetName());
-	/*if (a_bearth) {
-		m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", newPuck.GetName());
-	}
-	else {
-		m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", newPuck.GetName());
-	}*/
 	
 }
 void GameManager::AddNewPuck(bool a_bearth, Puck a_puNewPuck)
@@ -118,10 +113,10 @@ void GameManager::SetModelMatrix(int a_nIndex, matrix4 a_m4Model)
 	//m_lModelMatrices[a_nIndex] = a_m4Model;
 }
 void GameManager::Update() {
-	for (uint i = 0; i < m_lModelMatrices.size(); i++) {
+	for (uint i = 0; i < m_lPucks.size(); i++) {
 		if (m_nPucks > 0) {
 
-			m_pBOMngr->SetModelMatrix(m_lPucks[i].GetMatrix(), m_lPuckNames[i]);
+			m_pBOMngr->SetModelMatrix(m_lPucks[i].GetMatrix(), m_lPucks[i].GetName());
 		}
 	}
 	m_pBOMngr->Update();
@@ -143,7 +138,7 @@ void GameManager::Update() {
 void GameManager::SetUpGame()
 {
 	ClearList();
-	AddNewPuck(false);
+	AddNewPuck(true);
 	m_nPucks = 1;
 }
 
