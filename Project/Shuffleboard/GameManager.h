@@ -3,7 +3,6 @@
 #include "Puck.h"
 #include "MyBOManager.h"
 #include "Board.h"
-#include "Meter.h"
 
 class GameManager {
 private:
