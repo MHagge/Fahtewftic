@@ -35,12 +35,12 @@ Puck& Physics::Shoot(Puck &a_puObject, float a_fPower)
 	//m_fVelocity = a_fPower;
 }
 
-Puck& Physics::UpdatePhysics(Puck &a_puObject)
+matrix4 Physics::UpdatePhysics(Puck &a_puObject)
 {
 	a_puObject.SetVelocity(a_puObject.GetVelocity()*m_fFriction);
-	a_puObject.SetMatrix(glm::translate(a_puObject.GetMatrix(), a_puObject.GetVelocity()));
+	return glm::translate(a_puObject.GetMatrix(), a_puObject.GetVelocity());
 
-	return a_puObject;
+	//return a_puObject;
 	//matrix4 a_m4model = a_puObject.GetMatrix();
 	//m_fVelocity *= m_fFriction;
 	//a_m4model *= m_fVelocity;

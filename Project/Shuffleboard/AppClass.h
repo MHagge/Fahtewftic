@@ -29,14 +29,24 @@ class AppClass : public ReEngAppClass
 	Physics* m_pPhysics = nullptr;
 	PrimitiveClass* m_pPlayerArrow = nullptr;
 	GameManager* m_pGameMngr = nullptr;
+	PrimitiveClass* m_pCubeMeter = nullptr;
+
 
 	matrix4 m_mPuck = IDENTITY_M4;
 	matrix4 m_mArrow = IDENTITY_M4;
+	matrix4 scaleMeter = IDENTITY_M4;
+
 
 	vector3 m_vPosition = vector3(0.0f, 0.0f, 0.0f);
 
 	bool rotate = false;
+	bool movement = true;
 	bool m_bSpacePressed = false;
+	bool shooting = false;
+	bool shootingfinished = false;
+
+	float fPercentage;
+	float fPercentage2;
 
 	bool player1Turn = true;
 	GameStateEnum gameState = GameStateEnum::start;
@@ -46,6 +56,7 @@ class AppClass : public ReEngAppClass
 
 	int maxTurns = 0; // the max turns will be 6 - 3 each puck
 
+	vector3 newPosition;
 public:
 	typedef ReEngAppClass super;
 
@@ -130,6 +141,7 @@ public:
 
 	virtual void SpacebarInput();
 
+	virtual void Shoot();
 };
 /*
 USAGE:

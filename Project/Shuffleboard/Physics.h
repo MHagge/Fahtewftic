@@ -24,6 +24,6 @@ public:
 	void Release(void);
 	static void ReleaseInstance();
 	Puck& Shoot(Puck &a_puObject, float a_fPower);
-	Puck& UpdatePhysics(Puck& a_puObject);
+	matrix4 UpdatePhysics(Puck& a_puObject);
 
 };
