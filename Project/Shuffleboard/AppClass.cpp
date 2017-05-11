@@ -104,22 +104,12 @@ void AppClass::Update(void)
 			shootingfinished = true;
 			fTimer2 = 0.0f;
 			m_vPosition = newPosition;
+			fPercentage2 = 0.0f;
 		}
 	}
 
 	m_pGameMngr->SetModelMatrix(m_pGameMngr->GetNumOfPucks() - 1, m_mPuck);
-	//std::cout << m_pGameMngr->GetNumOfPucks() << std::endl;
 
-	//for (uint i = 0; i < m_pGameMngr->GetNumOfPucks(); i++) {
-	
-	//m_pGameMngr->GetPuckByIndex(0).SetMatrix(m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(0)));
-
-	//m_pGameMngr->GetPuckByIndex(m_pGameMngr->GetNumOfPucks() - 1) = m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(m_pGameMngr->GetNumOfPucks() - 1));
-	
-		//m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(0));
-		//m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(m_pGameMngr->GetNumOfPucks()-1));
-	//}
-	//m_pGameMngr->SetModelMatrix(0, m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0)));
 	m_pGameMngr->Update();
 
 	m_pGameMngr->AddInstances();
@@ -186,7 +176,7 @@ void AppClass::Display(void)
 	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix();
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
 
-	if (gameState != end_round) {
+	if (gameState != end_round && !shooting) {
 		m_pPlayerArrow->Render(m4Projection, m4View, m_mArrow);
 	}
 	if (!rotate && !movement && gameState != end_round) {
