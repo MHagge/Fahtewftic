@@ -265,6 +265,34 @@ int MyBOManager::GetIndex(String a_sIndex)
 	return var->second;//Get the index
 }
 
+String MyBOManager::GetName(String a_sIndex) {
+	//Find the related index
+	auto var = m_mapIndex.find(a_sIndex);
+	//If not found return -1
+	if (var == m_mapIndex.end())
+		return "\0";
+	return var->first;//Get the index
+}
+
+String MyBOManager::GetName(int a_sIndex) {
+	std::map<String, uint>::const_iterator it;
+	String key = "";
+
+	for (it = m_mapIndex.begin(); it != m_mapIndex.end(); ++it)
+	{
+		if (it->second == a_sIndex)
+		{
+			key = it->first;
+			break;
+		}
+	}
+
+	if (key == "") {
+		return "\0";
+	}
+	return key;
+}
+
 int MyBOManager::GetIndexSize()
 {
 	return m_llCollidingIndices.size();

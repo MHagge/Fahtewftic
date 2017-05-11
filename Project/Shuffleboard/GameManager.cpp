@@ -48,23 +48,21 @@ void GameManager::RenderObjects(matrix4 a_m4Proj, matrix4 a_m4View)
 void GameManager::AddNewPuck(bool a_bearth)
 {
 	Puck newPuck;
-	if (m_lPuckNames.size() == 0) {
+	if (m_lPucks.size() < 1) {
 		if (a_bearth) {
-			newPuck = Puck("First", vector3(0, 0, 0), REGREEN);
+			newPuck = Puck("First", REGREEN);
 		}
 		else {
-			newPuck = Puck("First", vector3(0, 0, 0), RERED);
+			newPuck = Puck("First", RERED);
 		}
-		//newPuck = Puck("First", vector3(0, 0, 0));
 	}
 	else {
 		if (a_bearth) {
-			newPuck = Puck(m_lPuckNames[m_lPuckNames.size() - 1] + std::to_string(m_lPuckNames.size()), vector3(0, 0, 0), REGREEN);
+			newPuck = Puck(m_lPuckNames[m_lPuckNames.size() - 1] + std::to_string(m_lPuckNames.size()), REGREEN);
 		}
 		else {
-			newPuck = Puck(m_lPuckNames[m_lPuckNames.size() - 1] + std::to_string(m_lPuckNames.size()), vector3(0, 0, 0), RERED);
+			newPuck = Puck(m_lPuckNames[m_lPuckNames.size() - 1] + std::to_string(m_lPuckNames.size()), RERED);
 		}
-		//newPuck = Puck(m_lPuckNames[m_lPuckNames.size() - 1] + std::to_string(m_lPuckNames.size()), vector3(0, 0, 0));
 	}
 	 
 	if (a_bearth) {
@@ -79,12 +77,6 @@ void GameManager::AddNewPuck(bool a_bearth)
 	m_lModelMatrices.push_back(matrix4(0));
 	m_nPucks++;
 	m_pBOMngr->AddObject(newPuck.GetName());
-	/*if (a_bearth) {
-		m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", newPuck.GetName());
-	}
-	else {
-		m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", newPuck.GetName());
-	}*/
 	
 }
 void GameManager::AddNewPuck(bool a_bearth, Puck a_puNewPuck)
@@ -92,6 +84,8 @@ void GameManager::AddNewPuck(bool a_bearth, Puck a_puNewPuck)
 	m_lPucks.push_back(a_puNewPuck);
 	m_lPuckNames.push_back(a_puNewPuck.GetName());
 	m_lModelMatrices.push_back(matrix4(0));
+
+	m_nPucks++;
 
 	m_pBOMngr->AddObject(a_puNewPuck.GetName());
 }
@@ -112,16 +106,17 @@ void GameManager::AddNewPuck(bool a_bearth, Puck a_puNewPuck, matrix4 a_m4Model)
 }
 void GameManager::SetModelMatrix(int a_nIndex, matrix4 a_m4Model)
 {
-	m_lPucks[a_nIndex].SetMatrix(a_m4Model);
-	m_lModelMatrices[a_nIndex] = a_m4Model;
+	if (m_nPucks > 0) {
+		m_lPucks[a_nIndex].SetMatrix(a_m4Model);
+	}
 }
 void GameManager::Update() {
-	for (uint i = 0; i < m_lModelMatrices.size(); i++) {
-		m_lModelMatrices[i] *= glm::translate(m_lPucks[i].GetPosition());
-
-		m_pMeshMngr->SetModelMatrix(m_lModelMatrices[i], m_lPuckNames[i]);
-		m_pBOMngr->SetModelMatrix(m_lModelMatrices[i], m_lPuckNames[i]);
+	for (uint i = 0; i < m_lPucks.size(); i++) {
+		if (m_nPucks > 0) {
+			m_pBOMngr->SetModelMatrix(m_lPucks[i].GetMatrix(), m_lPucks[i].GetName());
+		}
 	}
+
 	m_pBOMngr->Update();
 	for (uint i = 0; i < m_pBOMngr->GetIndexSize() - 1; i++) {
 
@@ -136,8 +131,24 @@ void GameManager::Update() {
 			collisions.push_back(indicesB);
 		}
 	}
+
+	Scoring();
 }
 
+
+void GameManager::SetUpGame()
+{
+	ClearList();
+	AddNewPuck(true);
+	m_nPucks = 1;
+}
+
+void GameManager::ClearList()
+{
+	//m_lPucks.clear();
+	m_lPucks = std::vector<Puck>();
+
+}
 
 matrix4 GameManager::GetModelMatrix(int a_nIndex)
 {
@@ -147,10 +158,11 @@ void GameManager::SetPuckByIndex(int a_nIndex, Puck a_puNew)
 {
 	m_lPucks[a_nIndex] = a_puNew;
 }
-Puck GameManager::GetPuckByIndex(int a_nIndex)
+Puck& GameManager::GetPuckByIndex(int a_nIndex)
 {
 	return m_lPucks[a_nIndex];
 }
+
 void GameManager::AddInstances()
 {
 	m_pMeshMngr->AddInstanceToRenderList("ALL");
@@ -159,6 +171,69 @@ int GameManager::GetNumOfPucks()
 {
 	return m_nPucks;
 }
+void GameManager::Scoring()
+{
+
+	for (int i = 0; i < m_bBoard.m_vsNames.size(); i++) {
+		boardCollisions.push_back(m_pBOMngr->GetCollidingVector(m_bBoard.m_vsNames[i]));
+	}
+
+	if (boardCollisions.size() > 0) {
+		for (int i = 0; i < 7; i++) { //Board piece to board piece
+
+									  //if()
+									  //For every board piece
+									  //if that index has a vector of colliding objects greater than size 0
+									  //and if it does, check color and increase corresponding score
+			String name = m_pBOMngr->GetName(m_bBoard.m_vsNames[i]);
+			int points = 0;
+			bool scored = false;
+
+			if (name == "10 Points" || name == "10 Points Back")
+			{
+				points = 10;
+				scored = true;
+			}
+
+			else if (name == "8 Points L" || name == "8 Points R") {
+
+				points = 8;
+				scored = true;
+			}
+
+			else if (name == "7 Points L" || name == "7 Points R") {
+				points = 7;
+				scored = true;
+			}
+
+			//check to see if that vector is greater than 0
+			//If greater than 0, iterate through that vector, For each index get corresponding name
+			//loop through m_lPucks, check if above names matches 
+
+			for (int j = 0; j < boardCollisions[i].size(); j++) {
+				//boardCollisions[i][j]
+				String colName = m_pBOMngr->GetName(boardCollisions[i][j]);
+				for (int k = 0; k < m_lPucks.size(); k++) {
+					if (m_lPucks[k].GetName() == colName) {
+						if (scored) {
+							if (m_lPucks[i].GetColor() == RERED) {
+								p1Score += points;
+							}
+							else if (m_lPucks[i].GetColor() == REGREEN) {
+								p2Score += points;
+							}
+						}
+					}
+
+				}
+
+			}
+
+
+		}
+	}
+}
+
 //The big 3
 GameManager::GameManager() { Init(); }
 GameManager::GameManager(GameManager const& other) { }

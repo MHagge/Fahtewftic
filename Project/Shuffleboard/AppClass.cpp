@@ -18,8 +18,8 @@ void AppClass::InitVariables(void)
 	m_selection = std::pair<int, int>(-1, -1);
 	//Set the camera position
 	m_pCameraMngr->SetPositionTargetAndView(
-		vector3(0.0f, 2.5f, 15.0f),//Camera position
-		vector3(0.0f, 2.5f, 0.0f),//What Im looking at
+		vector3(0.0f, 25.0f, 15.0f),//Camera position
+		vector3(0.0f, 5.0f, 0.0f),//What Im looking at
 		REAXISY);//What is up
 
 
@@ -28,29 +28,16 @@ void AppClass::InitVariables(void)
 	m_pGameMngr = GameManager::GetInstance();
 	m_pPhysics = Physics::GetInstance();
 
-	//m_bBoard = Board(vector3(0, 0, -10));
-	//m_bBoard.Init();
-
-	//m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
-	//m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
-
-
-	m_pGameMngr->AddNewPuck(false);
 	m_pGameMngr->AddNewPuck(true);
 
-
-	//for (int i = 0; i < p1Pucks.size; i++) {
-	//	//m_pPuck->(pucks[i].xPos, pucks[i].yPos,pucks[i].zPos REBLACK);
-	//}
-
-	//Load a model onto the Mesh manager
-
-
-
 	m_pPlayerArrow = new PrimitiveClass();
-
 	m_pPlayerArrow->GenerateCone(0.5f, 1.5f, 10, REBLUE);
 
+	m_pCubeMeter = new PrimitiveClass();
+	m_pCubeMeter->GenerateCube(1.0f, REWHITE);
+
+	m_pMeterBG = new PrimitiveClass();
+	m_pMeterBG->GenerateCube(1.0f, REBLACK);
 }
 
 void AppClass::Update(void)
@@ -78,28 +65,55 @@ void AppClass::Update(void)
 	//Set the model matrix for the first model to be the arcball
 	m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
 
+	static float fTimer = 0.0f;//creates a timer
+	static uint uClock = m_pSystem->GenClock();//ask the system for a new clock id
+	float fDeltaTime = m_pSystem->LapClock(uClock);//lap the selected clock
+	fTimer += fDeltaTime;//add the delta time to the current clock
 
+	vector3 v3Offset(3.0f, 0.0f, 0.0f); //Offset from the center
+	float fTotalTime = 1.5f; //total Time the animation will last
+	fPercentage = MapValue(fTimer, 0.0f, fTotalTime, 0.0f, 1.0f); //percentage of the time used
 
-	//m_pMeshMngr->SetModelMatrix(glm::translate(vector3(2, 0, 0)), "Earth");
-	//m_pMeshMngr->AddInstanceToRenderList("Earth");
+	static vector3 scale1 = vector3(1.0f, 0.0f, 0.0f);
+	static vector3 scale2 = vector3(1.0f, 0.0f, 6.0f);
 
+	vector3 v3Meter = glm::lerp(scale1, scale2, fPercentage);
+	scaleMeter = glm::translate(IDENTITY_M4, vector3(6.0f, 2.0f, 2.0f));
+	scaleMeter = glm::scale(scaleMeter, v3Meter);
 
-	//if (player1Turn) {
-	//	m_pMeshMngr->SetModelMatrix(m_mPuck, "Moon");
-	//	m_pMeshMngr->AddInstanceToRenderList("Moon");
-	//}
-	//else {
-	//	m_pMeshMngr->SetModelMatrix(m_mPuck, "Earth");
-	//	m_pMeshMngr->AddInstanceToRenderList("Earth");
-	//}
+	if (fPercentage > 1.0f) {
+		std::swap(scale1, scale2);
+		fTimer = 0.0f;
+	}
+
+	scaleMBG = glm::translate(IDENTITY_M4, vector3(6.0f, 1.9f, 2.0f));
+	scaleMBG = glm::scale(scaleMBG, 1.2f, 0.0f, 6.2f);
+
+	static float fTimer2 = 0.0f;//creates a timer
+	if (shooting) {
+		fTimer2 += fDeltaTime;//add the delta time to the current clock
+
+		fPercentage2 = MapValue(fTimer2, 0.0f, fTotalTime, 0.0f, 1.0f);
+
+		vector3 currentPosition = glm::lerp(m_vPosition, newPosition, fPercentage2);
+
+		m_mPuck = glm::translate(IDENTITY_M4, currentPosition);
+
+		if (fPercentage2 >= 1 && !shootingfinished) {
+			//shooting = false;
+			shootingfinished = true;
+			fTimer2 = 0.0f;
+			m_vPosition = newPosition;
+			fPercentage2 = 0.0f;
+		}
+	}
+	else {
+		fTimer2 = 0.0f;
+		fPercentage2 = 0.0f;
+	}
 
 	m_pGameMngr->SetModelMatrix(m_pGameMngr->GetNumOfPucks() - 1, m_mPuck);
-	std::cout << m_pGameMngr->GetNumOfPucks() << std::endl;
 
-	//for (uint i = 0; i < m_pGameMngr->GetNumOfPucks(); i++) {
-	//	m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(i));
-	//}
-	//m_pGameMngr->SetModelMatrix(0, m_pPhysics->UpdatePhysics(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0)));
 	m_pGameMngr->Update();
 
 	m_pGameMngr->AddInstances();
@@ -150,6 +164,12 @@ void AppClass::Prints(void)
 	if (gameState == 0) {
 		m_pMeshMngr->PrintLine("Press Tab to Begin");
 	}
+
+	m_pMeshMngr->Print("Player 1 Score: ");
+	m_pMeshMngr->PrintLine(std::to_string(m_pGameMngr->p1Score), REGREEN);
+
+	m_pMeshMngr->Print("Player 2 Score: ");
+	m_pMeshMngr->PrintLine(std::to_string(m_pGameMngr->p2Score), RERED);
 }
 
 void AppClass::Display(void)
@@ -160,8 +180,13 @@ void AppClass::Display(void)
 	matrix4 m4Projection = m_pCameraMngr->GetProjectionMatrix();
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
 
-	m_pPlayerArrow->Render(m4Projection, m4View, m_mArrow);
-
+	if (gameState != end_round && !shooting) {
+		m_pPlayerArrow->Render(m4Projection, m4View, m_mArrow);
+	}
+	if (!rotate && !movement && gameState != end_round) {
+		m_pCubeMeter->Render(m4Projection, m4View, scaleMeter);
+		m_pMeterBG->Render(m4Projection, m4View, scaleMBG);
+	}
 
 	//m_bBoard.Render(m4Projection, m4View);
 	m_pGameMngr->RenderObjects(m4Projection, m4View);
@@ -197,15 +222,23 @@ void AppClass::SwitchGameState(GameStateEnum a_eNewState) {
 
 		case GameStateEnum::start:
 			gameState = in_play;
+			m_pGameMngr->SetUpGame();
+			m_mPuck = IDENTITY_M4;
+			player1Turn = false;
+			totalP = 0.0f;
+			totalP = 0.0f;
 			break;
 		case GameStateEnum::in_play:
 			gameState = end_round;
 			break;
 		case GameStateEnum::end_round:
 			gameState = end_game;
+			rotate = false;
+			movement = true;
 			break;
 		case GameStateEnum::end_game:
 			gameState = start;
+			maxTurns = 0;
 			break;
 	}
 }
@@ -213,16 +246,52 @@ void AppClass::SwitchGameState(GameStateEnum a_eNewState) {
 void AppClass::SpacebarInput()
 {
 	if (m_bSpacePressed) {
-		if (!rotate) {
+		if (!rotate && movement) {
 			rotate = true;
+			movement = false;
 		}
-		else {
+		else if (rotate && !movement) {
 			rotate = false;
-			player1Turn = !player1Turn;
-			//m_pGameMngr->SetModelMatrix(0, m_pPhysics->Shoot(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0), 0, 2));
-			Puck newPuck = Puck(std::to_string(m_pGameMngr->GetNumOfPucks()), vector3(0, 0, 0));
-			m_pGameMngr->AddNewPuck(!player1Turn, newPuck);
+		}
+		else if (!rotate && !movement) {
+			if (maxTurns < 6) {
+				
+				if (!shooting) {
+					Shoot();
+				}
+				if(shootingfinished){
+					shooting = false;
+					movement = true;
+					player1Turn = !player1Turn;
+					//m_pGameMngr->SetModelMatrix(0, m_pPhysics->Shoot(m_pGameMngr->GetPuckByIndex(0), m_pGameMngr->GetModelMatrix(0), 0, 2));
+					//Puck newPuck = Puck(std::to_string(m_pGameMngr->GetNumOfPucks()), vector3(0, 0, 0));
+
+					m_pGameMngr->AddNewPuck(!player1Turn);
+
+					totalP = 0.0f;
+					m_vPosition = vector3(0);
+					m_mPuck = IDENTITY_M4;
+					maxTurns++;
+					fPercentage = 0.0f;
+				}
+			}
+			else {
+				SwitchGameState(end_round);
+				rotate = false;
+				maxTurns = 0;
+			}
 		}
 		m_bSpacePressed = false;
 	}
+}
+
+void AppClass::Shoot()
+{
+	shooting = true;
+	shootingfinished = false;
+	vector3 direction = glm::rotate(vector3(0, 0, -2), totalR, REAXISY);
+	//m_vPosition - (m_vPosition + vector3(0, 0, -2));
+	direction *= fPercentage*10;
+
+	newPosition = direction;
 }

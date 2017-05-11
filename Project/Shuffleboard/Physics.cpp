@@ -24,29 +24,32 @@ void Physics::ReleaseInstance()
 	}
 }
 
-
-matrix4 Physics::Shoot(Puck &a_puObject, matrix4 a_m4model, float a_fAngle, float a_fPower)
+Puck& Physics::Shoot(Puck &a_puObject, float a_fPower)
 {
-	vector3 velocity = vector3(1.0f, 0.0f, 1.0f);
-	velocity *= a_fPower;
-	a_puObject.SetVelocity(velocity);
-	a_m4model *= glm::translate(velocity);
-	return a_m4model;
+	vector3 direction = (vector3)glm::normalize(a_puObject.GetMatrix()*vector4(1, 1, 1, 0));
+	direction *= a_fPower;
+	a_puObject.SetVelocity(direction);
+
+	return a_puObject;
+	//m_fVelocity = 0.0f;
+	//m_fVelocity = a_fPower;
 }
 
-matrix4 Physics::UpdatePhysics(Puck &a_puObject, matrix4 a_m4model)
+matrix4 Physics::UpdatePhysics(Puck &a_puObject)
 {
-	vector3 position = a_puObject.GetPosition();
-	vector3 velocity = a_puObject.GetVelocity();
-	velocity *= m_fFriction;
-	a_puObject.SetVelocity(velocity);
-	a_m4model *= glm::translate(velocity);
-	return a_m4model;
+	a_puObject.SetVelocity(a_puObject.GetVelocity()*m_fFriction);
+	return glm::translate(a_puObject.GetMatrix(), a_puObject.GetVelocity());
+
+	//return a_puObject;
+	//matrix4 a_m4model = a_puObject.GetMatrix();
+	//m_fVelocity *= m_fFriction;
+	//a_m4model *= m_fVelocity;
+	//a_puObject.SetMatrix(a_m4model);
 }
 
 void Physics::Init(void)
 {
-	m_fFriction = 1.00f;
+	m_fFriction = .05f;
 }
 
 Physics::Physics() { Init(); }

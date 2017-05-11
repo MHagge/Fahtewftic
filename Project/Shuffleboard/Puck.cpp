@@ -4,34 +4,29 @@
 
 Puck::Puck()
 {
-	m_sName = "";
-	m_v3Position = vector3(0);
-	m_v3Velocity = vector3(0);
-	m_v3Accel = vector3(0);
+	m_sName = "1";
 	m_m4Matrix = IDENTITY_M4;
 	m_vColor = RERED;
 	m_pPuck = new PrimitiveClass();
+	velocity = vector3(0);
 }
 
-Puck::Puck(String a_sName, vector3 a_v3Position)
+Puck::Puck(String a_sName)
 {
 	m_sName = a_sName;
-	m_v3Position = a_v3Position;
-	m_v3Velocity = vector3(0);
-	m_v3Accel = vector3(0);
 	m_m4Matrix = IDENTITY_M4;
 	m_vColor = RERED;
 	m_pPuck = new PrimitiveClass();
+	velocity = vector3(0);
+
 }
 
-Puck::Puck(String a_sName, vector3 a_v3Position, vector3 a_v3Color) {
+Puck::Puck(String a_sName, vector3 a_v3Color) {
 	m_sName = a_sName;
-	m_v3Position = a_v3Position;
-	m_v3Velocity = vector3(0);
-	m_v3Accel = vector3(0);
 	m_m4Matrix = IDENTITY_M4;
 	m_vColor = a_v3Color;
 	m_pPuck = new PrimitiveClass();
+	velocity = vector3(0);
 }
 
 Puck & Puck::operator=(Puck const & other)
@@ -39,8 +34,8 @@ Puck & Puck::operator=(Puck const & other)
 	return *this;
 }
 
-Puck::~Puck()
-{
+
+Puck::~Puck() {
 }
 
 void Puck::GenerateSphere()
@@ -53,21 +48,6 @@ String Puck::GetName()
 	return m_sName;
 }
 
-vector3 Puck::GetPosition()
-{
-	return m_v3Position;
-}
-
-vector3 Puck::GetVelocity()
-{
-	return m_v3Velocity;
-}
-
-vector3 Puck::GetAcceleration()
-{
-	return m_v3Accel;
-}
-
 matrix4 Puck::GetMatrix()
 {
 	return m_m4Matrix;
@@ -78,19 +58,14 @@ vector3 Puck::GetColor()
 	return m_vColor;
 }
 
-void Puck::SetPosition(vector3 a_v3New)
+vector3 Puck::GetVelocity()
 {
-	m_v3Position = a_v3New;
+	return velocity;
 }
 
-void Puck::SetVelocity(vector3 a_v3New)
+void Puck::SetVelocity(vector3 a_v3velocity)
 {
-	m_v3Velocity = a_v3New;
-}
-
-void Puck::SetAcceleration(vector3 a_v3New)
-{
-	m_v3Accel = a_v3New;
+	velocity = a_v3velocity;
 }
 
 void Puck::SetMatrix(matrix4 a_m4New)
